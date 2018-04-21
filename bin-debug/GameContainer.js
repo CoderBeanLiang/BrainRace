@@ -30,6 +30,8 @@ var GameContainer = (function (_super) {
         this.stageW = this.stage.stageWidth;
         this.stageH = this.stage.stageHeight;
         this.stageCenterX = this.stageW / 2;
+        this.roadBg = new Background();
+        this.addChild(this.roadBg);
         this.car = new Car(RES.getRes("car_png"), this.fixedSpeed, this.acceleration);
         this.car.anchorOffsetX = this.car.width / 2;
         this.car.y = this.stageH / 3 * 2;
@@ -44,14 +46,11 @@ var GameContainer = (function (_super) {
     };
     GameContainer.prototype.touchHandler = function (evt) {
         var touchX = evt.localX;
-        console.log("TouchX:", touchX);
         if (evt.type == egret.TouchEvent.TOUCH_BEGIN) {
-            console.log("Begin:", touchX);
             this.lastTouchMoveX = touchX;
         }
         else if (evt.type == egret.TouchEvent.TOUCH_MOVE) {
             var offsetX = touchX - this.lastTouchMoveX;
-            console.log("OffsetX:", offsetX);
             this.car.x = this.car.x + offsetX;
             this.lastTouchMoveX = touchX;
         }

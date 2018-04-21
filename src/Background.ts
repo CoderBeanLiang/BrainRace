@@ -8,7 +8,6 @@ class Background extends egret.DisplayObjectContainer {
 
 		super();
 
-		this.width = 400;
         this.initMember();
 		this.initListener();
 	}

@@ -7,15 +7,17 @@ class GameContainer extends egret.DisplayObjectContainer {
     private lastTouchMoveX:number;
 
     // 路面背景
+    private roadBg:Background;
+    // 路面左右边缘
+    private roadLeftEdge:number;
+    private roadRightEdge:number;
 
     // 玩家赛车
     private car:Car;
-
     // 当前速度
     private currentSpeed = 0;
     // 稳定速度
     private fixedSpeed = 10;
-
     // 加速度
     private acceleration = 5;
 
@@ -35,6 +37,9 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.stageH = this.stage.stageHeight;
         this.stageCenterX = this.stageW / 2;
 
+        this.roadBg = new Background();
+        this.addChild(this.roadBg);
+
         this.car = new Car(RES.getRes("car_png"), this.fixedSpeed, this.acceleration);
         this.car.anchorOffsetX = this.car.width / 2;
         this.car.y = this.stageH  / 3 * 2;
@@ -45,6 +50,8 @@ class GameContainer extends egret.DisplayObjectContainer {
     }
 
     private gameStart() {
+        this.addEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
+
         this.touchEnabled = true;
         this.parent.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
@@ -56,8 +63,24 @@ class GameContainer extends egret.DisplayObjectContainer {
             this.lastTouchMoveX = touchX;
         } else if (evt.type == egret.TouchEvent.TOUCH_MOVE) {
             var offsetX:number = touchX - this.lastTouchMoveX;           
-            this.car.x = this.car.x + offsetX;
+            this.setCarPosition(offsetX);
             this.lastTouchMoveX = touchX;
         }
+    }
+
+    private setCarPosition(offsetX:number) {
+        var newX = this.car.x + offsetX;
+        if (newX < this.roadLeftEdge) {
+            newX = this.roadLeftEdge;
+        } else if (newX > this.roadRightEdge) {
+            newX = this.roadRightEdge;
+        }
+        this.car.x = newX;
+    }
+
+    private updateGame() {
+        // 每一帧中都通过小车获取当前速度
+        this.currentSpeed = this.car.getCurrentSpeed();
+        // 更新其他部件的位置
     }
 }
