@@ -14,8 +14,8 @@ var Background = (function (_super) {
         var _this = _super.call(this) || this;
         _this.road = new Array();
         _this.speed = 10;
-        _this.leftEdge = 1;
-        _this.rightEdge = 1;
+        _this.leftEdge = 68;
+        _this.rightEdge = 209;
         _this.initMember();
         _this.initListener();
         return _this;
@@ -52,6 +52,7 @@ var Background = (function (_super) {
         track.texture = RES.getRes(name);
         track.scaleY = this.stage.stageWidth / track.width;
         track.scaleX = this.stage.stageWidth / track.width;
+        console.log("S:", track.scaleX);
         if (road.length == 0) {
             track.y = this.stage.stageHeight - this.BitmapHeight(track);
         }
