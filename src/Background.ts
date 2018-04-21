@@ -19,11 +19,21 @@ class Background extends egret.DisplayObjectContainer {
 	}
 
 	public getLeftEdge(): number {
-		return this.leftEdge * this.scaleX;
+		let road = this.road;
+		if(road.length == 0)
+		{
+			return this.leftEdge;
+		}
+		return this.leftEdge * road[0].scaleX;
 	}
 
 	public getRightEdge(): number {
-		return this.rightEdge * this.scaleX;
+		let road = this.road;
+		if(road.length == 0)
+		{
+			return this.rightEdge;
+		}
+		return this.rightEdge * road[0].scaleX;
 	}
 
 	private initMember(): void {
@@ -51,7 +61,6 @@ class Background extends egret.DisplayObjectContainer {
 	private appendRoad(name: string): void {
 		let road = this.road;
 		let track = new egret.Bitmap();
-		this.touchChildren
 		track.texture = RES.getRes(name);
 		track.scaleY = this.stage.stageWidth / track.width;
 		track.scaleX = this.stage.stageWidth / track.width;
