@@ -1,2 +1,4 @@
-
-bin-debug
+#忽略文件夹
+bin-debug\
+modules\
+template\
