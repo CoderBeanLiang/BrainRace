@@ -3,6 +3,8 @@ class Background extends egret.DisplayObjectContainer {
 
 	private road: Array<egret.Bitmap> = new Array<egret.Bitmap>();
 	private speed: number = 10;
+	private leftEdge: number = 1;
+	private rightEdge: number = 1;
 
 	public constructor() {
 
@@ -10,6 +12,18 @@ class Background extends egret.DisplayObjectContainer {
 
         this.initMember();
 		this.initListener();
+	}
+
+	public setSpeed(speed: number): void {
+		this.speed = speed;
+	}
+
+	public getLeftEdge(): number {
+		return this.leftEdge * this.scaleX;
+	}
+
+	public getRightEdge(): number {
+		return this.rightEdge * this.scaleX;
 	}
 
 	private initMember(): void {
