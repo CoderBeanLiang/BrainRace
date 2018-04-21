@@ -9,6 +9,8 @@
 	],
 	"game": [
 		"bin-debug/AssetAdapter.js",
+		"bin-debug/Car.js",
+		"bin-debug/GameContainer.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
