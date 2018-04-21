@@ -24,10 +24,18 @@ var Background = (function (_super) {
         this.speed = speed;
     };
     Background.prototype.getLeftEdge = function () {
-        return this.leftEdge * this.scaleX;
+        var road = this.road;
+        if (road.length == 0) {
+            return this.leftEdge;
+        }
+        return this.leftEdge * road[0].scaleX;
     };
     Background.prototype.getRightEdge = function () {
-        return this.rightEdge * this.scaleX;
+        var road = this.road;
+        if (road.length == 0) {
+            return this.rightEdge;
+        }
+        return this.rightEdge * road[0].scaleX;
     };
     Background.prototype.initMember = function () {
     };
@@ -48,11 +56,9 @@ var Background = (function (_super) {
     Background.prototype.appendRoad = function (name) {
         var road = this.road;
         var track = new egret.Bitmap();
-        this.touchChildren;
         track.texture = RES.getRes(name);
         track.scaleY = this.stage.stageWidth / track.width;
         track.scaleX = this.stage.stageWidth / track.width;
-        console.log("S:", track.scaleX);
         if (road.length == 0) {
             track.y = this.stage.stageHeight - this.BitmapHeight(track);
         }

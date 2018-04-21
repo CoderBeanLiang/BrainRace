@@ -15,9 +15,9 @@ var GameContainer = (function (_super) {
         // 当前速度
         _this.currentSpeed = 0;
         // 稳定速度
-        _this.fixedSpeed = 10;
+        _this.fixedSpeed = 20;
         // 加速度
-        _this.acceleration = 5;
+        _this.acceleration = 1;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -32,12 +32,13 @@ var GameContainer = (function (_super) {
         this.stageCenterX = this.stageW / 2;
         this.roadBg = new Background();
         this.addChild(this.roadBg);
-        this.roadLeftEdge = this.roadBg.getLeftEdge();
-        this.roadRightEdge = this.roadBg.getRightEdge();
+        this.roadLeftEdge = Math.ceil(this.roadBg.getLeftEdge());
+        this.roadRightEdge = Math.floor(this.roadBg.getRightEdge());
         console.log("L", this.roadLeftEdge);
         console.log("R", this.roadRightEdge);
         this.car = new Car(RES.getRes("car_png"), this.fixedSpeed, this.acceleration);
-        this.car.anchorOffsetX = this.car.width / 2;
+        this.carWidthHalf = this.car.width / 2;
+        this.car.anchorOffsetX = this.carWidthHalf;
         this.car.y = this.stageH / 3 * 2;
         this.car.x = this.stageCenterX;
         this.addChild(this.car);
@@ -62,11 +63,11 @@ var GameContainer = (function (_super) {
     };
     GameContainer.prototype.setCarPosition = function (offsetX) {
         var newX = this.car.x + offsetX;
-        if (newX < this.roadLeftEdge) {
-            newX = this.roadLeftEdge;
+        if (newX < this.roadLeftEdge + this.carWidthHalf) {
+            newX = this.roadLeftEdge + this.carWidthHalf;
         }
-        else if (newX > this.roadRightEdge) {
-            newX = this.roadRightEdge;
+        else if (newX > this.roadRightEdge - this.carWidthHalf) {
+            newX = this.roadRightEdge - this.carWidthHalf;
         }
         this.car.x = newX;
     };
