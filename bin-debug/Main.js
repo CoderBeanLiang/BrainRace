@@ -258,11 +258,8 @@ var Main = (function (_super) {
      * Click the button
      */
     Main.prototype.onButtonClick = function (e) {
-        var panel = new eui.Panel();
-        panel.title = "Title";
-        panel.horizontalCenter = 0;
-        panel.verticalCenter = 0;
-        this.addChild(panel);
+        var gameContainer = new GameContainer();
+        this.addChild(gameContainer);
     };
     return Main;
 }(eui.UILayer));
