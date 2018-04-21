@@ -39,6 +39,10 @@ class GameContainer extends egret.DisplayObjectContainer {
 
         this.roadBg = new Background();
         this.addChild(this.roadBg);
+        this.roadLeftEdge = this.roadBg.getLeftEdge();
+        this.roadRightEdge = this.roadBg.getRightEdge();
+        console.log("L", this.roadLeftEdge);
+        console.log("R", this.roadRightEdge);
 
         this.car = new Car(RES.getRes("car_png"), this.fixedSpeed, this.acceleration);
         this.car.anchorOffsetX = this.car.width / 2;
@@ -82,5 +86,6 @@ class GameContainer extends egret.DisplayObjectContainer {
         // 每一帧中都通过小车获取当前速度
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
+        this.roadBg.setSpeed(this.currentSpeed);
     }
 }

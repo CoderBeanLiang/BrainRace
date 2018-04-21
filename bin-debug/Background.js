@@ -14,10 +14,21 @@ var Background = (function (_super) {
         var _this = _super.call(this) || this;
         _this.road = new Array();
         _this.speed = 10;
+        _this.leftEdge = 1;
+        _this.rightEdge = 1;
         _this.initMember();
         _this.initListener();
         return _this;
     }
+    Background.prototype.setSpeed = function (speed) {
+        this.speed = speed;
+    };
+    Background.prototype.getLeftEdge = function () {
+        return this.leftEdge * this.scaleX;
+    };
+    Background.prototype.getRightEdge = function () {
+        return this.rightEdge * this.scaleX;
+    };
     Background.prototype.initMember = function () {
     };
     Background.prototype.initListener = function () {
