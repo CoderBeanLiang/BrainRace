@@ -2,7 +2,7 @@
 class Background extends egret.DisplayObjectContainer {
 
 	private road: Array<egret.Bitmap> = new Array<egret.Bitmap>();
-	private speed: number = 10;
+	private speed: number = 0;
 	private leftEdge: number = 68;
 	private rightEdge: number = 209;
 

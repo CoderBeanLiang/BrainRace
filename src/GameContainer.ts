@@ -6,11 +6,14 @@ class GameContainer extends egret.DisplayObjectContainer {
 
     private lastTouchMoveX:number;
 
+    // 标识小车是否运行
+    private isRunning:boolean = false;
+
     // 路面背景
     private roadBg:Background;
     // 路面左右边缘
-    private roadLeftEdge:number;
-    private roadRightEdge:number;
+    //private roadLeftEdge:number;
+    //private roadRightEdge:number;
 
     // 玩家赛车
     private car:Car;
@@ -18,7 +21,7 @@ class GameContainer extends egret.DisplayObjectContainer {
     // 当前速度
     private currentSpeed = 0;
     // 稳定速度
-    private fixedSpeed = 20;
+    private fixedSpeed = 10;
     // 加速度
     private acceleration = 1;
 
@@ -40,10 +43,6 @@ class GameContainer extends egret.DisplayObjectContainer {
 
         this.roadBg = new Background();
         this.addChild(this.roadBg);
-        this.roadLeftEdge = Math.ceil(this.roadBg.getLeftEdge());
-        this.roadRightEdge = Math.floor(this.roadBg.getRightEdge());
-        console.log("L", this.roadLeftEdge);
-        console.log("R", this.roadRightEdge);
 
         this.car = new Car(RES.getRes("car_png"), this.fixedSpeed, this.acceleration);
         this.carWidthHalf = this.car.width / 2;
@@ -52,15 +51,47 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.car.x = this.stageCenterX;
         this.addChild(this.car);
 
-        this.gameStart();
+        let roadLeftEdge = Math.ceil(this.roadBg.getLeftEdge());
+        let roadRightEdge = Math.floor(this.roadBg.getRightEdge());
+        this.car.setRoadEdge(roadLeftEdge, roadRightEdge);
+
+        let readyTimer = new ReadyTimer();
+        readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
+        this.addChild(readyTimer);
+
+        // let buttonStop = new eui.Button();
+        // buttonStop.label = "stop";
+        // buttonStop.x = this.stageW - 100;
+        // buttonStop.y = 10;
+        // this.addChild(buttonStop);
+        // buttonStop.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+
+        // let buttonStart = new eui.Button();
+        // buttonStart.label = "start";
+        // buttonStart.x = this.stageW - 200;
+        // buttonStart.y = 10;
+        // this.addChild(buttonStart);
+        // buttonStart.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
     }
 
+    // private onButtonClick(evt: egret.TouchEvent) {
+    //     var button = <eui.Button>evt.target;
+    //     if (button.label == "start") {
+    //         this.car.start();
+    //     } else if (button.label == "stop") {
+    //         this.car.stop();
+    //     }
+    // }
+
     private gameStart() {
+        this.removeChildAt(this.numChildren - 1);
         this.addEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
 
         this.touchEnabled = true;
         this.parent.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
+
+        this.car.start();
     }
 
     private touchHandler(evt:egret.TouchEvent) {
@@ -68,20 +99,10 @@ class GameContainer extends egret.DisplayObjectContainer {
         if (evt.type == egret.TouchEvent.TOUCH_BEGIN) {
             this.lastTouchMoveX = touchX;
         } else if (evt.type == egret.TouchEvent.TOUCH_MOVE) {
-            var offsetX:number = touchX - this.lastTouchMoveX;           
-            this.setCarPosition(offsetX);
+            var offsetX:number = touchX - this.lastTouchMoveX;
+            this.car.setOffsetX(offsetX);
             this.lastTouchMoveX = touchX;
         }
-    }
-
-    private setCarPosition(offsetX:number) {
-        var newX = this.car.x + offsetX;
-        if (newX < this.roadLeftEdge + this.carWidthHalf) {
-            newX = this.roadLeftEdge + this.carWidthHalf;
-        } else if (newX > this.roadRightEdge - this.carWidthHalf) {
-            newX = this.roadRightEdge - this.carWidthHalf;
-        }
-        this.car.x = newX;
     }
 
     private updateGame() {
