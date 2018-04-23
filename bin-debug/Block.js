@@ -18,8 +18,8 @@ var Block = (function (_super) {
     function Block(typeName) {
         var _this = _super.call(this) || this;
         // 区块大小
-        _this.blockW = 100;
-        _this.blockH = 100;
+        _this.blockW = 0;
+        _this.blockH = 0;
         _this.answer = 0;
         _this.typeName = typeName;
         return _this;
@@ -56,6 +56,9 @@ var Block = (function (_super) {
     //     this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     //     this.createBlock();
     // }
+    Block.prototype.getAnswer = function () {
+        return this.answer;
+    };
     Block.prototype.setAnswer = function (answer) {
         this.removeChildren();
         switch (this.typeName) {
@@ -89,6 +92,27 @@ var Block = (function (_super) {
     };
     Block.prototype.createNumberBlock = function (num) {
         this.answer = num;
+        var scale = 1;
+        var temp = num;
+        var bmpArr = [];
+        // 10 是避免死循环，实际不会有这么大的数
+        for (var i = 0; i < 10; i++) {
+            if (temp > 0) {
+                var resName = BlockParam.numResArr[temp % 10];
+                bmpArr.push(new egret.Bitmap(RES.getRes(resName)));
+                temp = Math.floor(temp / 10);
+            }
+            else {
+                break;
+            }
+        }
+        for (var i = 0; i < bmpArr.length; i++) {
+            var bmp = bmpArr[bmpArr.length - 1 - i];
+            bmp.x = this.blockW;
+            this.addChild(bmp);
+            this.blockW += scale * bmp.width;
+            this.blockH = scale * bmp.height;
+        }
     };
     Block.prototype.createMagicBlock = function () {
         this.answer = BlockParam.MAGIC_ANSWER;

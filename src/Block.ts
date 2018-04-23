@@ -42,8 +42,8 @@ class Block extends egret.DisplayObjectContainer {
 
 
     // 区块大小
-    private blockW:number = 100;
-    private blockH:number = 100;
+    private blockW:number = 0;
+    private blockH:number = 0;
 
     // 区块类型名称
     private typeName:string;
@@ -60,6 +60,10 @@ class Block extends egret.DisplayObjectContainer {
     //     this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     //     this.createBlock();
     // }
+
+    public getAnswer():number {
+        return this.answer;
+    }
 
     public setAnswer(answer:number) {
         this.removeChildren();
@@ -101,6 +105,32 @@ class Block extends egret.DisplayObjectContainer {
 
     private createNumberBlock(num:number) {
         this.answer = num;
+
+        let scale = 1;
+
+        var temp = num;
+        var bmpArr:egret.Bitmap[] = [];
+        // 10 是避免死循环，实际不会有这么大的数
+        for (var i = 0; i < 10; i++) {
+            if (temp > 0) {
+                let resName = BlockParam.numResArr[temp % 10];
+                bmpArr.push(new egret.Bitmap(RES.getRes(resName)));
+                temp = Math.floor(temp / 10);
+            } else {
+                break;
+            }
+        }
+
+        for(var i = 0; i < bmpArr.length; i++) {
+            let bmp = bmpArr[bmpArr.length - 1 - i];
+            
+            bmp.x = this.blockW;
+
+            this.addChild(bmp);
+
+            this.blockW += scale * bmp.width;
+            this.blockH = scale * bmp.height;
+        }
     }
 
     private createMagicBlock() {

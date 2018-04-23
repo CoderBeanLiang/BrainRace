@@ -74,7 +74,7 @@ var GameContainer = (function (_super) {
         this.parent.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
         this.car.start();
-        var block = Block.produce(BlockParam.TYPE_COLOR, 0xffffffff);
+        var block = Block.produce(BlockParam.TYPE_NUMBER, 156);
         this.addChild(block);
     };
     GameContainer.prototype.touchHandler = function (evt) {
