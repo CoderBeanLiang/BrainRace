@@ -2,14 +2,14 @@ class BlockParam {
 
     public static TYPE_COLOR:string = "Color";
     public static TYPE_NUMBER:string = "Number";
-    public static MAGIC_ANSWER:number = 0xffffffff;
+    public static MAGIC_ANSWER:number = 0xffffff;
 
-    public static COLOR_RED:number = 0xffff0000;
-    public static COLOR_GREEN:number = 0xff00ff00;
-    public static COLOR_BLUE:number = 0xff0000ff;
-    public static COLOR_YELLOW:number = 0xffffff00;
-    public static COLOR_ORANGE:number = 0xffff9c00;
-    public static COLOR_PURPLE:number = 0xffff00ff;
+    public static COLOR_RED:number = 0xff0000;
+    public static COLOR_GREEN:number = 0x00ff00;
+    public static COLOR_BLUE:number = 0x0000ff;
+    public static COLOR_YELLOW:number = 0xffff00;
+    public static COLOR_ORANGE:number = 0xff9c00;
+    public static COLOR_PURPLE:number = 0xff00ff;
 
     public static RES_RED = "block_red_png";
     public static RES_GREEN = "block_green_png";

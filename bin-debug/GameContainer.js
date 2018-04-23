@@ -17,7 +17,7 @@ var GameContainer = (function (_super) {
         // 当前速度
         _this.currentSpeed = 0;
         // 稳定速度
-        _this.fixedSpeed = 10;
+        _this.fixedSpeed = 30;
         // 加速度
         _this.acceleration = 1;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
@@ -34,7 +34,7 @@ var GameContainer = (function (_super) {
         this.stageCenterX = this.stageW / 2;
         this.roadBg = new Background();
         this.addChild(this.roadBg);
-        this.car = new Car(RES.getRes("car_default_png"), this.fixedSpeed, this.acceleration);
+        this.car = new Car(this.fixedSpeed, this.acceleration);
         this.carWidthHalf = this.car.width / 2;
         this.car.anchorOffsetX = this.carWidthHalf;
         this.car.y = this.stageH / 3 * 2;
@@ -74,8 +74,6 @@ var GameContainer = (function (_super) {
         this.parent.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
         this.car.start();
-        var block = Block.produce(BlockParam.TYPE_NUMBER, 156);
-        this.addChild(block);
     };
     GameContainer.prototype.touchHandler = function (evt) {
         var touchX = evt.localX;

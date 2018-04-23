@@ -1,11 +1,12 @@
 class Car extends egret.DisplayObjectContainer {
 
+    // 动画相关
+    private mcFactory:egret.MovieClipDataFactory;
+    private mcMove:egret.MovieClip;
+
     private carWidthHalf:number;
     private roadLeftEdge:number = 0;
     private roadRightEdge:number = 1;
-
-    // 赛车精灵贴图
-    private carBmp:egret.Bitmap;
 
     // 火焰精灵贴图
     private tailBmp:egret.Bitmap;
@@ -21,13 +22,19 @@ class Car extends egret.DisplayObjectContainer {
     // 加速度
     private acceleration:number = 0;
 
-    public constructor(texture:egret.Texture, fixedSpeed:number, acceleration:number) {
+    public constructor(fixedSpeed:number, acceleration:number) {
         super();
 
         this.fixedSpeed = fixedSpeed;
         this.acceleration = acceleration;
-        this.carBmp = new egret.Bitmap(texture);
-        this.addChild(this.carBmp);
+
+        // 动画相关初始化
+        let jsonData = RES.getRes("car_json");
+        let texture = RES.getRes("car_png");
+        this.mcFactory = new egret.MovieClipDataFactory(jsonData, texture);
+        this.mcMove = new egret.MovieClip(this.mcFactory.generateMovieClipData("car_move"));
+
+        this.addChild(this.mcMove);
 
         this.carWidthHalf = this.width / 2;
 
@@ -36,6 +43,7 @@ class Car extends egret.DisplayObjectContainer {
 
     public start() {
         this.realFixedSpeed = this.fixedSpeed;
+        this.mcMove.gotoAndPlay(1, -1);
     }
 
     public stop() {
@@ -60,8 +68,7 @@ class Car extends egret.DisplayObjectContainer {
         return this.calculateSpeed();
     }
 
-    // 计算出当前小车速度
-    // 车速始终向稳定速度趋近
+    // 计算当前车速，车速始终向稳定速度趋近
     private calculateSpeed():number {
         if (this.currentSpeed < this.realFixedSpeed) {
             this.currentSpeed += this.acceleration;
@@ -74,6 +81,8 @@ class Car extends egret.DisplayObjectContainer {
                 this.currentSpeed = this.realFixedSpeed;
             }
         }
+        // 小车速度与动画帧率直接相关
+        this.mcMove.frameRate = this.currentSpeed;
         return this.currentSpeed;
     }
 

@@ -16,6 +16,9 @@ var Background = (function (_super) {
         _this.speed = 0;
         _this.leftEdge = 68;
         _this.rightEdge = 209;
+        _this.obstacle = new Array();
+        _this.offset = 200;
+        _this.interval = 50;
         _this.initMember();
         _this.initListener();
         return _this;
@@ -37,6 +40,13 @@ var Background = (function (_super) {
         }
         return this.rightEdge * road[0].scaleX;
     };
+    Background.prototype.getRoadWith = function () {
+        return this.getRightEdge() - this.getLeftEdge();
+    };
+    // 返回障碍物列表
+    Background.prototype.getObstacle = function () {
+        return this.obstacle;
+    };
     Background.prototype.initMember = function () {
     };
     Background.prototype.initListener = function () {
@@ -51,7 +61,8 @@ var Background = (function (_super) {
     };
     Background.prototype.shiftRoad = function () {
         var road = this.road;
-        road.shift();
+        var track = road.shift();
+        this.removeChild(track);
     };
     Background.prototype.appendRoad = function (name) {
         var road = this.road;
@@ -66,23 +77,68 @@ var Background = (function (_super) {
             track.y = this.BitmapTop(road[road.length - 1]) - this.BitmapHeight(track);
         }
         road.push(track);
-        this.addChild(track);
+        this.addChildAt(track, 0);
+    };
+    Background.prototype.appendObstacle = function (name) {
+        var obstacle = this.obstacle;
+        var block = this.produceObstacle();
+        block.x = Math.random() * (this.getRoadWith() - block.width) + this.getLeftEdge();
+        if (obstacle.length == 0) {
+            block.y = 0 - this.BitmapHeight(block);
+        }
+        else {
+            var offset = this.interval + Math.random() * this.offset;
+            block.y = this.BitmapTop(obstacle[obstacle.length - 1]) - this.BitmapHeight(block) - offset;
+        }
+        obstacle.push(block);
+        this.addChildAt(block, 100);
+    };
+    Background.prototype.shiftObstacle = function () {
+        var obstacle = this.obstacle;
+        var block = obstacle.shift();
+        this.removeChild(block);
+    };
+    Background.prototype.produceObstacle = function () {
+        var color = BlockParam.getRandomColor();
+        return Block.produce(BlockParam.TYPE_COLOR, color);
     };
     Background.prototype.onEnterFrame = function (e) {
         var road = this.road;
+        var obstacle = this.obstacle;
         for (var i = 0; i < road.length; i++) {
             road[i].y += this.speed;
         }
+        for (var i = 0; i < obstacle.length; i++) {
+            obstacle[i].y += this.speed;
+        }
+        // 删除窗口底部的路面
         if (road.length > 0) {
             if (this.BitmapTop(road[0]) > this.stage.stageHeight) {
                 this.shiftRoad();
             }
         }
+        // 添加窗口顶部的路面
         if (road.length > 0) {
             var index = road.length - 1;
             if (this.BitmapTop(road[index]) > 0) {
                 this.appendRoad("road_png");
             }
+        }
+        // 删除窗口底部的障碍物
+        if (obstacle.length > 0) {
+            if (this.BitmapTop(obstacle[0]) > this.stage.stageHeight) {
+                this.shiftObstacle();
+            }
+        }
+        // 删除窗口顶部的障碍物
+        if (obstacle.length > 0) {
+            var index = obstacle.length - 1;
+            if (this.BitmapTop(obstacle[index]) > 0) {
+                this.appendObstacle("tail_png");
+            }
+        }
+        if (obstacle.length == 0) {
+            this.appendObstacle("tail_png");
         }
     };
     Background.prototype.onAddToStage = function (event) {

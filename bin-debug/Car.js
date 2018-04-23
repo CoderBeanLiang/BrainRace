@@ -10,7 +10,7 @@ r.prototype = e.prototype, t.prototype = new r();
 };
 var Car = (function (_super) {
     __extends(Car, _super);
-    function Car(texture, fixedSpeed, acceleration) {
+    function Car(fixedSpeed, acceleration) {
         var _this = _super.call(this) || this;
         _this.roadLeftEdge = 0;
         _this.roadRightEdge = 1;
@@ -24,14 +24,19 @@ var Car = (function (_super) {
         _this.acceleration = 0;
         _this.fixedSpeed = fixedSpeed;
         _this.acceleration = acceleration;
-        _this.carBmp = new egret.Bitmap(texture);
-        _this.addChild(_this.carBmp);
+        // 动画相关初始化
+        var jsonData = RES.getRes("car_json");
+        var texture = RES.getRes("car_png");
+        _this.mcFactory = new egret.MovieClipDataFactory(jsonData, texture);
+        _this.mcMove = new egret.MovieClip(_this.mcFactory.generateMovieClipData("car_move"));
+        _this.addChild(_this.mcMove);
         _this.carWidthHalf = _this.width / 2;
         return _this;
         //this.addEventListener(egret.TouchEvent.ENTER_FRAME, this., this);
     }
     Car.prototype.start = function () {
         this.realFixedSpeed = this.fixedSpeed;
+        this.mcMove.gotoAndPlay(1, -1);
     };
     Car.prototype.stop = function () {
         this.realFixedSpeed = 0;
@@ -50,8 +55,7 @@ var Car = (function (_super) {
     Car.prototype.getCurrentSpeed = function () {
         return this.calculateSpeed();
     };
-    // 计算出当前小车速度
-    // 车速始终向稳定速度趋近
+    // 计算当前车速，车速始终向稳定速度趋近
     Car.prototype.calculateSpeed = function () {
         if (this.currentSpeed < this.realFixedSpeed) {
             this.currentSpeed += this.acceleration;
@@ -65,6 +69,8 @@ var Car = (function (_super) {
                 this.currentSpeed = this.realFixedSpeed;
             }
         }
+        // 小车速度与动画帧率直接相关
+        this.mcMove.frameRate = this.currentSpeed;
         return this.currentSpeed;
     };
     Car.prototype.setCarPosition = function (offsetX) {

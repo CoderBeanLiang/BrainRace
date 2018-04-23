@@ -21,7 +21,7 @@ class GameContainer extends egret.DisplayObjectContainer {
     // 当前速度
     private currentSpeed = 0;
     // 稳定速度
-    private fixedSpeed = 10;
+    private fixedSpeed = 20;
     // 加速度
     private acceleration = 1;
 
@@ -44,7 +44,7 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.roadBg = new Background();
         this.addChild(this.roadBg);
 
-        this.car = new Car(RES.getRes("car_default_png"), this.fixedSpeed, this.acceleration);
+        this.car = new Car(this.fixedSpeed, this.acceleration);
         this.carWidthHalf = this.car.width / 2;
         this.car.anchorOffsetX = this.carWidthHalf;
         this.car.y = this.stageH  / 3 * 2;
