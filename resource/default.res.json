@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,car_png,road_png,tail_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,car_png,road_png,tail_png,car_running_png,block_blue_png,block_eight_png,block_five_png,block_four_png,block_green_png,block_nine_png,block_one_png,block_orange_png,block_purple_png,block_red_png,block_seven_png,block_six_png,block_three_png,block_two_png,block_yellow_png,block_zero_png,car_default_png",
 			"name": "preload"
 		}
 	],
@@ -150,6 +150,96 @@
 			"name": "tail_png",
 			"type": "image",
 			"url": "assets/tail.png"
+		},
+		{
+			"name": "car_running_png",
+			"type": "image",
+			"url": "assets/car_running.png"
+		},
+		{
+			"name": "block_blue_png",
+			"type": "image",
+			"url": "assets/block_blue.png"
+		},
+		{
+			"name": "block_eight_png",
+			"type": "image",
+			"url": "assets/block_eight.png"
+		},
+		{
+			"name": "block_five_png",
+			"type": "image",
+			"url": "assets/block_five.png"
+		},
+		{
+			"name": "block_four_png",
+			"type": "image",
+			"url": "assets/block_four.png"
+		},
+		{
+			"name": "block_green_png",
+			"type": "image",
+			"url": "assets/block_green.png"
+		},
+		{
+			"name": "block_nine_png",
+			"type": "image",
+			"url": "assets/block_nine.png"
+		},
+		{
+			"name": "block_one_png",
+			"type": "image",
+			"url": "assets/block_one.png"
+		},
+		{
+			"name": "block_orange_png",
+			"type": "image",
+			"url": "assets/block_orange.png"
+		},
+		{
+			"name": "block_purple_png",
+			"type": "image",
+			"url": "assets/block_purple.png"
+		},
+		{
+			"name": "block_red_png",
+			"type": "image",
+			"url": "assets/block_red.png"
+		},
+		{
+			"name": "block_seven_png",
+			"type": "image",
+			"url": "assets/block_seven.png"
+		},
+		{
+			"name": "block_six_png",
+			"type": "image",
+			"url": "assets/block_six.png"
+		},
+		{
+			"name": "block_three_png",
+			"type": "image",
+			"url": "assets/block_three.png"
+		},
+		{
+			"name": "block_two_png",
+			"type": "image",
+			"url": "assets/block_two.png"
+		},
+		{
+			"name": "block_yellow_png",
+			"type": "image",
+			"url": "assets/block_yellow.png"
+		},
+		{
+			"name": "block_zero_png",
+			"type": "image",
+			"url": "assets/block_zero.png"
+		},
+		{
+			"name": "car_default_png",
+			"type": "image",
+			"url": "assets/car_default.png"
 		}
 	]
 }

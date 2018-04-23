@@ -44,7 +44,7 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.roadBg = new Background();
         this.addChild(this.roadBg);
 
-        this.car = new Car(RES.getRes("car_png"), this.fixedSpeed, this.acceleration);
+        this.car = new Car(RES.getRes("car_default_png"), this.fixedSpeed, this.acceleration);
         this.carWidthHalf = this.car.width / 2;
         this.car.anchorOffsetX = this.carWidthHalf;
         this.car.y = this.stageH  / 3 * 2;

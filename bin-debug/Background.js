@@ -13,7 +13,7 @@ var Background = (function (_super) {
     function Background() {
         var _this = _super.call(this) || this;
         _this.road = new Array();
-        _this.speed = 10;
+        _this.speed = 0;
         _this.leftEdge = 68;
         _this.rightEdge = 209;
         _this.initMember();

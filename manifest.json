@@ -8,10 +8,12 @@
 		"libs/modules/promise/promise.js"
 	],
 	"game": [
-		"bin-debug/AssetAdapter.js",
 		"bin-debug/Background.js",
-		"bin-debug/Car.js",
 		"bin-debug/GameContainer.js",
+		"bin-debug/Block.js",
+		"bin-debug/BlockParam.js",
+		"bin-debug/Car.js",
+		"bin-debug/AssetAdapter.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",

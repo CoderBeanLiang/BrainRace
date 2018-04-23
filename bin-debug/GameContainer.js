@@ -12,10 +12,12 @@ var GameContainer = (function (_super) {
     __extends(GameContainer, _super);
     function GameContainer() {
         var _this = _super.call(this) || this;
+        // 标识小车是否运行
+        _this.isRunning = false;
         // 当前速度
         _this.currentSpeed = 0;
         // 稳定速度
-        _this.fixedSpeed = 20;
+        _this.fixedSpeed = 10;
         // 加速度
         _this.acceleration = 1;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
@@ -32,23 +34,48 @@ var GameContainer = (function (_super) {
         this.stageCenterX = this.stageW / 2;
         this.roadBg = new Background();
         this.addChild(this.roadBg);
-        this.roadLeftEdge = Math.ceil(this.roadBg.getLeftEdge());
-        this.roadRightEdge = Math.floor(this.roadBg.getRightEdge());
-        console.log("L", this.roadLeftEdge);
-        console.log("R", this.roadRightEdge);
-        this.car = new Car(RES.getRes("car_png"), this.fixedSpeed, this.acceleration);
+        this.car = new Car(RES.getRes("car_default_png"), this.fixedSpeed, this.acceleration);
         this.carWidthHalf = this.car.width / 2;
         this.car.anchorOffsetX = this.carWidthHalf;
         this.car.y = this.stageH / 3 * 2;
         this.car.x = this.stageCenterX;
         this.addChild(this.car);
-        this.gameStart();
+        var roadLeftEdge = Math.ceil(this.roadBg.getLeftEdge());
+        var roadRightEdge = Math.floor(this.roadBg.getRightEdge());
+        this.car.setRoadEdge(roadLeftEdge, roadRightEdge);
+        var readyTimer = new ReadyTimer();
+        readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
+        this.addChild(readyTimer);
+        // let buttonStop = new eui.Button();
+        // buttonStop.label = "stop";
+        // buttonStop.x = this.stageW - 100;
+        // buttonStop.y = 10;
+        // this.addChild(buttonStop);
+        // buttonStop.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        // let buttonStart = new eui.Button();
+        // buttonStart.label = "start";
+        // buttonStart.x = this.stageW - 200;
+        // buttonStart.y = 10;
+        // this.addChild(buttonStart);
+        // buttonStart.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
     };
+    // private onButtonClick(evt: egret.TouchEvent) {
+    //     var button = <eui.Button>evt.target;
+    //     if (button.label == "start") {
+    //         this.car.start();
+    //     } else if (button.label == "stop") {
+    //         this.car.stop();
+    //     }
+    // }
     GameContainer.prototype.gameStart = function () {
+        this.removeChildAt(this.numChildren - 1);
         this.addEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
         this.touchEnabled = true;
         this.parent.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
+        this.car.start();
+        var block = Block.produce(BlockParam.TYPE_COLOR, 0xffffffff);
+        this.addChild(block);
     };
     GameContainer.prototype.touchHandler = function (evt) {
         var touchX = evt.localX;
@@ -57,19 +84,9 @@ var GameContainer = (function (_super) {
         }
         else if (evt.type == egret.TouchEvent.TOUCH_MOVE) {
             var offsetX = touchX - this.lastTouchMoveX;
-            this.setCarPosition(offsetX);
+            this.car.setOffsetX(offsetX);
             this.lastTouchMoveX = touchX;
         }
-    };
-    GameContainer.prototype.setCarPosition = function (offsetX) {
-        var newX = this.car.x + offsetX;
-        if (newX < this.roadLeftEdge + this.carWidthHalf) {
-            newX = this.roadLeftEdge + this.carWidthHalf;
-        }
-        else if (newX > this.roadRightEdge - this.carWidthHalf) {
-            newX = this.roadRightEdge - this.carWidthHalf;
-        }
-        this.car.x = newX;
     };
     GameContainer.prototype.updateGame = function () {
         // 每一帧中都通过小车获取当前速度
