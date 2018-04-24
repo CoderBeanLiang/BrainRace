@@ -113,5 +113,15 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);
+        // 处理障碍物和汽车的碰撞
+        let obstacle = this.roadBg.getObstacle();
+        let cartop = UtilObject.BitmapTop(this.car);
+        for(var i = 0; i < obstacle.length; ++i) {
+            if(UtilObject.BitmapBottom(obstacle[i]) < cartop) {
+                break;  // 后续障碍物都在汽车上方，不做判断
+            } else if(UtilObject.overlay(this.car, obstacle[i])) {
+                console.log("overlay");
+            }
+        }
     }
 }
