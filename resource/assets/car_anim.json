@@ -1,0 +1,52 @@
+{"mc":{
+	"car_anim":{
+		"frameRate":24,
+		"labels":[
+			{"name":"car_move","frame":1,"end":2}
+			
+			],
+		"events":[
+			
+			],
+		"frames":[
+			
+			{
+			"res":"car_stand",
+			"x":0,
+			"y":0
+			},
+			{
+			"res":"car_moving",
+			"x":0,
+			"y":0
+			}
+			]
+},"car_fire":{
+		"frameRate":24,
+		"labels":[
+			{"name":"fire","frame":1,"end":2}
+			
+			],
+		"events":[
+			
+			],
+		"frames":[
+			
+			{
+			"res":"fire1",
+			"x":5,
+			"y":5
+			},
+			{
+			"res":"fire2",
+			"x":5,
+			"y":5
+			}
+			]
+}},
+	"res":{
+		"car_moving":{"x":122,"y":0,"w":120,"h":185},
+		"fire1":{"x":0,"y":187,"w":70,"h":75},
+		"car_stand":{"x":0,"y":0,"w":120,"h":185},
+		"fire2":{"x":72,"y":187,"w":70,"h":70}
+	}}

@@ -92,6 +92,9 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
 
         this.car.start();
+
+        let block:Block = Block.produce(BlockParam.TYPE_NUMBER, 312);
+        this.addChild(block);
     }
 
     private touchHandler(evt:egret.TouchEvent) {

@@ -17,7 +17,7 @@ var GameContainer = (function (_super) {
         // 当前速度
         _this.currentSpeed = 0;
         // 稳定速度
-        _this.fixedSpeed = 30;
+        _this.fixedSpeed = 20;
         // 加速度
         _this.acceleration = 1;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
@@ -74,6 +74,8 @@ var GameContainer = (function (_super) {
         this.parent.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
         this.car.start();
+        var block = Block.produce(BlockParam.TYPE_NUMBER, 312);
+        this.addChild(block);
     };
     GameContainer.prototype.touchHandler = function (evt) {
         var touchX = evt.localX;

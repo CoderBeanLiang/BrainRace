@@ -25,10 +25,10 @@ var Car = (function (_super) {
         _this.fixedSpeed = fixedSpeed;
         _this.acceleration = acceleration;
         // 动画相关初始化
-        var jsonData = RES.getRes("car_json");
-        var texture = RES.getRes("car_png");
+        var jsonData = RES.getRes("car_anim_json");
+        var texture = RES.getRes("car_anim_png");
         _this.mcFactory = new egret.MovieClipDataFactory(jsonData, texture);
-        _this.mcMove = new egret.MovieClip(_this.mcFactory.generateMovieClipData("car_move"));
+        _this.mcMove = new egret.MovieClip(_this.mcFactory.generateMovieClipData("car_anim"));
         _this.addChild(_this.mcMove);
         _this.carWidthHalf = _this.width / 2;
         return _this;

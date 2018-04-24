@@ -80,6 +80,9 @@ class Block extends egret.DisplayObjectContainer {
         }
     }
 
+    /**
+     * 创建颜色方块，使用遮罩
+     */
     private createColorBlock(color:number) {
         this.answer = color;
 
@@ -89,6 +92,12 @@ class Block extends egret.DisplayObjectContainer {
         var bmp:egret.Bitmap = new egret.Bitmap(RES.getRes(resName));
         this.blockW = scale * bmp.width;
         this.blockH = scale * bmp.height;
+
+        var bg:egret.Shape = new egret.Shape();
+        bg.graphics.beginFill(0x000000);
+        bg.graphics.drawRect(0, 0, this.blockW, this.blockH);
+        bg.graphics.endFill();
+        this.addChild(bg);
 
         var rect:egret.Shape = new egret.Shape();
         rect.graphics.beginFill(color);
@@ -110,6 +119,8 @@ class Block extends egret.DisplayObjectContainer {
 
         var temp = num;
         var bmpArr:egret.Bitmap[] = [];
+
+        // 计算加载位图
         // 10 是避免死循环，实际不会有这么大的数
         for (var i = 0; i < 10; i++) {
             if (temp > 0) {
@@ -121,6 +132,7 @@ class Block extends egret.DisplayObjectContainer {
             }
         }
 
+        // 依次显示位图
         for(var i = 0; i < bmpArr.length; i++) {
             let bmp = bmpArr[bmpArr.length - 1 - i];
             
@@ -131,6 +143,13 @@ class Block extends egret.DisplayObjectContainer {
             this.blockW += scale * bmp.width;
             this.blockH = scale * bmp.height;
         }
+
+        // 添加白背景色
+        var bg:egret.Shape = new egret.Shape();
+        bg.graphics.beginFill(0xffffff);
+        bg.graphics.drawRect(0, 0, this.blockW, this.blockH);
+        bg.graphics.endFill();
+        this.addChildAt(bg, 0);
     }
 
     private createMagicBlock() {

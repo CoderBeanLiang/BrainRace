@@ -73,6 +73,9 @@ var Block = (function (_super) {
                 break;
         }
     };
+    /**
+     * 创建颜色方块，使用遮罩
+     */
     Block.prototype.createColorBlock = function (color) {
         this.answer = color;
         var scale = 1;
@@ -80,6 +83,11 @@ var Block = (function (_super) {
         var bmp = new egret.Bitmap(RES.getRes(resName));
         this.blockW = scale * bmp.width;
         this.blockH = scale * bmp.height;
+        var bg = new egret.Shape();
+        bg.graphics.beginFill(0x000000);
+        bg.graphics.drawRect(0, 0, this.blockW, this.blockH);
+        bg.graphics.endFill();
+        this.addChild(bg);
         var rect = new egret.Shape();
         rect.graphics.beginFill(color);
         rect.graphics.drawRect(0, 0, this.blockW, this.blockH);
@@ -113,6 +121,12 @@ var Block = (function (_super) {
             this.blockW += scale * bmp.width;
             this.blockH = scale * bmp.height;
         }
+        // 添加白背景色
+        var bg = new egret.Shape();
+        bg.graphics.beginFill(0xffffff);
+        bg.graphics.drawRect(0, 0, this.blockW, this.blockH);
+        bg.graphics.endFill();
+        this.addChildAt(bg, 0);
     };
     Block.prototype.createMagicBlock = function () {
         this.answer = BlockParam.MAGIC_ANSWER;

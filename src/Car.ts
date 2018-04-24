@@ -29,10 +29,10 @@ class Car extends egret.DisplayObjectContainer {
         this.acceleration = acceleration;
 
         // 动画相关初始化
-        let jsonData = RES.getRes("car_json");
-        let texture = RES.getRes("car_png");
+        let jsonData = RES.getRes("car_anim_json");
+        let texture = RES.getRes("car_anim_png");
         this.mcFactory = new egret.MovieClipDataFactory(jsonData, texture);
-        this.mcMove = new egret.MovieClip(this.mcFactory.generateMovieClipData("car_move"));
+        this.mcMove = new egret.MovieClip(this.mcFactory.generateMovieClipData("car_anim"));
 
         this.addChild(this.mcMove);
 
