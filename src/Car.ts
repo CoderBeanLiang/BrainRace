@@ -18,6 +18,8 @@ class Car extends egret.DisplayObjectContainer {
     private fixedSpeed:number = 0;
     // 当前稳定速度（小车停止时的稳定速度是0）
     private realFixedSpeed:number = 0;
+    // 踩中方块对速度的影响需要限定在某一个范围内，初始化时设为定速的一半
+    private addedSpeedRange:number = 0;
 
     // 加速度
     private acceleration:number = 0;
@@ -27,6 +29,7 @@ class Car extends egret.DisplayObjectContainer {
 
         this.fixedSpeed = fixedSpeed;
         this.acceleration = acceleration;
+        this.addedSpeedRange = this.fixedSpeed / 2;
 
         // 动画相关初始化
         let jsonData = RES.getRes("car_anim_json");
@@ -61,7 +64,10 @@ class Car extends egret.DisplayObjectContainer {
 
     // 设置当前速度的增值
     public addToCurrentSpeed(add:number) {
-        this.currentSpeed += add;
+        if (this.currentSpeed > this.fixedSpeed - this.addedSpeedRange
+            && this.currentSpeed < this.fixedSpeed + this.addedSpeedRange) {
+                this.currentSpeed += add;
+        }
     }
 
     public getCurrentSpeed():number {

@@ -42,7 +42,7 @@ class Background extends egret.DisplayObjectContainer {
 		return this.rightEdge * road[0].scaleX;
 	}
 
-	public getRoadWith(): number {
+	public getRoadWidth(): number {
 		return this.getRightEdge() - this.getLeftEdge();
 	}
 
@@ -93,7 +93,7 @@ class Background extends egret.DisplayObjectContainer {
 	private appendObstacle(name: string): void {
 		let obstacle = this.obstacle;
 		let block = this.produceObstacle();
-		block.x = Math.random() * (this.getRoadWith() - block.width) + this.getLeftEdge();
+		block.x = Math.random() * (this.getRoadWidth() - block.width) + this.getLeftEdge();
 		if(obstacle.length == 0) {
 			block.y = 0 - UtilObject.BitmapHeight(block);
 		}

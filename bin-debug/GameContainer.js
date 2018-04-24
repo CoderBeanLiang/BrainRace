@@ -18,6 +18,8 @@ var GameContainer = (function (_super) {
         _this.currentSpeed = 0;
         // 稳定速度
         _this.fixedSpeed = 20;
+        // 方块增速
+        _this.addedSpeed = 1.5;
         // 加速度
         _this.acceleration = 1;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
@@ -74,8 +76,6 @@ var GameContainer = (function (_super) {
         this.parent.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
         this.car.start();
-        var block = Block.produce(BlockParam.TYPE_NUMBER, 312);
-        this.addChild(block);
     };
     GameContainer.prototype.touchHandler = function (evt) {
         var touchX = evt.localX;
@@ -89,7 +89,23 @@ var GameContainer = (function (_super) {
         }
     };
     GameContainer.prototype.updateGame = function () {
-        // 每一帧中都通过小车获取当前速度
+        // 因碰撞会影响车速故先检测碰撞
+        // 处理障碍物和汽车的碰撞
+        var obstacle = this.roadBg.getObstacle();
+        var cartop = UtilObject.BitmapTop(this.car);
+        for (var i = 0; i < obstacle.length; ++i) {
+            if (UtilObject.BitmapBottom(obstacle[i]) < cartop) {
+                break; // 后续障碍物都在汽车上方，不做判断
+            }
+            else if (UtilObject.overlay(this.car, obstacle[i])) {
+                console.log("overlay");
+                // 判断答案是否正确
+                // 假设调试
+                this.car.addToCurrentSpeed(this.addedSpeed);
+                // 理论上同一时刻应仅有一个方块和车产生碰撞，此处应有break
+            }
+        }
+        // 获取小车当前速度
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);

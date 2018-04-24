@@ -103,6 +103,7 @@ var Block = (function (_super) {
         var scale = 1;
         var temp = num;
         var bmpArr = [];
+        // 计算加载位图
         // 10 是避免死循环，实际不会有这么大的数
         for (var i = 0; i < 10; i++) {
             if (temp > 0) {
@@ -114,6 +115,7 @@ var Block = (function (_super) {
                 break;
             }
         }
+        // 依次显示位图
         for (var i = 0; i < bmpArr.length; i++) {
             var bmp = bmpArr[bmpArr.length - 1 - i];
             bmp.x = this.blockW;

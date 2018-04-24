@@ -20,10 +20,13 @@ var Car = (function (_super) {
         _this.fixedSpeed = 0;
         // 当前稳定速度（小车停止时的稳定速度是0）
         _this.realFixedSpeed = 0;
+        // 踩中方块对速度的影响需要限定在某一个范围内，初始化时设为定速的一半
+        _this.addedSpeedRange = 0;
         // 加速度
         _this.acceleration = 0;
         _this.fixedSpeed = fixedSpeed;
         _this.acceleration = acceleration;
+        _this.addedSpeedRange = _this.fixedSpeed / 2;
         // 动画相关初始化
         var jsonData = RES.getRes("car_anim_json");
         var texture = RES.getRes("car_anim_png");
@@ -50,7 +53,10 @@ var Car = (function (_super) {
     };
     // 设置当前速度的增值
     Car.prototype.addToCurrentSpeed = function (add) {
-        this.currentSpeed += add;
+        if (this.currentSpeed > this.fixedSpeed - this.addedSpeedRange
+            && this.currentSpeed < this.fixedSpeed + this.addedSpeedRange) {
+            this.currentSpeed += add;
+        }
     };
     Car.prototype.getCurrentSpeed = function () {
         return this.calculateSpeed();
