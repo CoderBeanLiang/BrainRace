@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,road_png,block_zero_png,block_blue_png,block_eight_png,block_five_png,block_four_png,block_green_png,block_nine_png,block_one_png,block_orange_png,block_purple_png,block_red_png,block_seven_png,block_six_png,block_three_png,block_two_png,block_yellow_png,car_anim_png,car_anim_json,ready_png,ready_go_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,road_png,block_zero_png,block_blue_png,block_eight_png,block_five_png,block_four_png,block_green_png,block_nine_png,block_one_png,block_orange_png,block_purple_png,block_red_png,block_seven_png,block_six_png,block_three_png,block_two_png,block_yellow_png,car_anim_png,car_anim_json,ready_png,ready_go_png,tree1_png,tree2_png,tree3_png,tree4_png,tree5_png,tree6_png,tree7_png",
 			"name": "preload"
 		}
 	],
@@ -240,6 +240,41 @@
 			"name": "ready_go_png",
 			"type": "image",
 			"url": "assets/ready_go.png"
+		},
+		{
+			"name": "tree1_png",
+			"type": "image",
+			"url": "assets/tree/tree1.png"
+		},
+		{
+			"name": "tree2_png",
+			"type": "image",
+			"url": "assets/tree/tree2.png"
+		},
+		{
+			"name": "tree3_png",
+			"type": "image",
+			"url": "assets/tree/tree3.png"
+		},
+		{
+			"name": "tree4_png",
+			"type": "image",
+			"url": "assets/tree/tree4.png"
+		},
+		{
+			"name": "tree5_png",
+			"type": "image",
+			"url": "assets/tree/tree5.png"
+		},
+		{
+			"name": "tree6_png",
+			"type": "image",
+			"url": "assets/tree/tree6.png"
+		},
+		{
+			"name": "tree7_png",
+			"type": "image",
+			"url": "assets/tree/tree7.png"
 		}
 	]
 }
