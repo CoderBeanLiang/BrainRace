@@ -8,7 +8,9 @@ class Background extends egret.DisplayObjectContainer {
 
 	private obstacle: Array<egret.DisplayObject> = new Array<egret.DisplayObject>();
 	private offset: number = 200;
-	private interval: number = 50;
+	private interval: number = 200;
+
+	private question: Question;
 
 	public constructor() {
 
@@ -61,7 +63,7 @@ class Background extends egret.DisplayObjectContainer {
 	private createRoad(): void {
 		let road = this.road;
 
-		while(road.length == 0 || this.BitmapTop(road[road.length - 1]) > 0) {
+		while(road.length == 0 || UtilObject.BitmapTop(road[road.length - 1]) > 0) {
 			this.appendRoad("road_png");
 		}
 	}
@@ -79,10 +81,10 @@ class Background extends egret.DisplayObjectContainer {
 		track.scaleY = this.stage.stageWidth / track.width;
 		track.scaleX = this.stage.stageWidth / track.width;
 		if(road.length == 0) {
-			track.y = this.stage.stageHeight - this.BitmapHeight(track);
+			track.y = this.stage.stageHeight - UtilObject.BitmapHeight(track);
 		}
 		else {
-			track.y = this.BitmapTop(road[road.length - 1]) - this.BitmapHeight(track);
+			track.y = UtilObject.BitmapTop(road[road.length - 1]) - UtilObject.BitmapHeight(track);
 		}
 		road.push(track);
 		this.addChildAt(track, 0);
@@ -93,11 +95,11 @@ class Background extends egret.DisplayObjectContainer {
 		let block = this.produceObstacle();
 		block.x = Math.random() * (this.getRoadWith() - block.width) + this.getLeftEdge();
 		if(obstacle.length == 0) {
-			block.y = 0 - this.BitmapHeight(block);
+			block.y = 0 - UtilObject.BitmapHeight(block);
 		}
 		else {
 			let offset = this.interval + Math.random() * this.offset;
-			block.y = this.BitmapTop(obstacle[obstacle.length - 1]) - this.BitmapHeight(block) - offset;
+			block.y = UtilObject.BitmapTop(obstacle[obstacle.length - 1]) - UtilObject.BitmapHeight(block) - offset;
 		}
 		obstacle.push(block);
 		this.addChildAt(block, 100);
@@ -111,8 +113,17 @@ class Background extends egret.DisplayObjectContainer {
 
 
 	private produceObstacle(): Block {
-		let color = BlockParam.getRandomColor();
-		return Block.produce(BlockParam.TYPE_COLOR, color);
+
+		let question = this.question;
+		if(question == null) {
+			this.question = new QuestionColor();
+			question = this.question;
+		}
+		if(question.empty()) {
+			this.question = new QuestionColor();
+			question = this.question;
+		}
+		return question.produce();
 	}
 
 	private onEnterFrame(e: egret.Event) {
@@ -127,7 +138,7 @@ class Background extends egret.DisplayObjectContainer {
 		// 删除窗口底部的路面
 		if(road.length > 0)
 		{
-			if(this.BitmapTop(road[0]) > this.stage.stageHeight)
+			if(UtilObject.BitmapTop(road[0]) > this.stage.stageHeight)
 			{
 				this.shiftRoad();
 			}
@@ -136,7 +147,7 @@ class Background extends egret.DisplayObjectContainer {
 		if(road.length > 0)
 		{
 			let index = road.length - 1;
-			if(this.BitmapTop(road[index]) > 0)
+			if(UtilObject.BitmapTop(road[index]) > 0)
 			{
 				this.appendRoad("road_png");
 			}
@@ -144,7 +155,7 @@ class Background extends egret.DisplayObjectContainer {
 		// 删除窗口底部的障碍物
 		if(obstacle.length > 0)
 		{
-			if(this.BitmapTop(obstacle[0]) > this.stage.stageHeight)
+			if(UtilObject.BitmapTop(obstacle[0]) > this.stage.stageHeight)
 			{
 				this.shiftObstacle();
 			}
@@ -153,7 +164,7 @@ class Background extends egret.DisplayObjectContainer {
 		if(obstacle.length > 0)
 		{
 			let index = obstacle.length - 1;
-			if(this.BitmapTop(obstacle[index]) > 0)
+			if(UtilObject.BitmapTop(obstacle[index]) > 0)
 			{
 				this.appendObstacle("tail_png");
 			}
@@ -167,12 +178,4 @@ class Background extends egret.DisplayObjectContainer {
     private onAddToStage(event:egret.Event) {
         this.createRoad();
     }
-
-	private BitmapTop(bitmap: egret.DisplayObject): number {
-		return bitmap.y - bitmap.anchorOffsetY * bitmap.scaleY;
-	}
-
-	private BitmapHeight(bitmap: egret.DisplayObject): number {
-		return bitmap.height * bitmap.scaleY;
-	}
 }
