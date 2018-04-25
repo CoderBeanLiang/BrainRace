@@ -23,9 +23,9 @@ class GameContainer extends egret.DisplayObjectContainer {
     // 稳定速度
     private fixedSpeed = 20;
     // 方块增速
-    private addedSpeed = 1.5;
+    private addedSpeed = 10;
     // 加速度
-    private acceleration = 1;
+    private acceleration = 0.2;
 
     public constructor() {
         super();

@@ -24,6 +24,8 @@ var Car = (function (_super) {
         _this.addedSpeedRange = 0;
         // 加速度
         _this.acceleration = 0;
+        // 标记是否因方块在加速
+        _this.inSpeedUp = false;
         _this.fixedSpeed = fixedSpeed;
         _this.acceleration = acceleration;
         _this.addedSpeedRange = _this.fixedSpeed / 2;
@@ -32,8 +34,14 @@ var Car = (function (_super) {
         var texture = RES.getRes("car_anim_png");
         _this.mcFactory = new egret.MovieClipDataFactory(jsonData, texture);
         _this.mcMove = new egret.MovieClip(_this.mcFactory.generateMovieClipData("car_anim"));
+        _this.mcFire = new egret.MovieClip(_this.mcFactory.generateMovieClipData("car_fire"));
+        _this.mcFire.alpha = 0;
+        _this.mcFire.x = (_this.mcMove.width - _this.mcFire.width) / 2;
+        _this.mcFire.y = _this.mcMove.y + _this.mcMove.height;
         _this.addChild(_this.mcMove);
+        _this.addChild(_this.mcFire);
         _this.carWidthHalf = _this.width / 2;
+        _this.carRect = new egret.Rectangle(_this.x, _this.y, _this.mcMove.width, _this.mcMove.height);
         return _this;
         //this.addEventListener(egret.TouchEvent.ENTER_FRAME, this., this);
     }
@@ -51,11 +59,21 @@ var Car = (function (_super) {
     Car.prototype.setOffsetX = function (offsetX) {
         this.setCarPosition(offsetX);
     };
+    Car.prototype.getCarDisplayRect = function () {
+        this.carRect.x = this.x - this.carWidthHalf;
+        this.carRect.y = this.y;
+        return this.carRect;
+    };
     // 设置当前速度的增值
     Car.prototype.addToCurrentSpeed = function (add) {
         if (this.currentSpeed > this.fixedSpeed - this.addedSpeedRange
             && this.currentSpeed < this.fixedSpeed + this.addedSpeedRange) {
-            this.currentSpeed += add;
+            this.currentSpeed = this.fixedSpeed + add;
+        }
+        if (!this.inSpeedUp && add > 0) {
+            this.inSpeedUp = true;
+            // 播放加速动画
+            this.showFireAnim(true);
         }
     };
     Car.prototype.getCurrentSpeed = function () {
@@ -73,6 +91,11 @@ var Car = (function (_super) {
             this.currentSpeed -= this.acceleration;
             if (this.currentSpeed < this.realFixedSpeed) {
                 this.currentSpeed = this.realFixedSpeed;
+                // 说明小车加速效果消失了
+                if (this.realFixedSpeed > 0) {
+                    this.inSpeedUp = false;
+                    this.showFireAnim(false);
+                }
             }
         }
         // 小车速度与动画帧率直接相关
@@ -92,6 +115,16 @@ var Car = (function (_super) {
             newX = this.roadRightEdge - this.carWidthHalf;
         }
         this.x = newX;
+    };
+    Car.prototype.showFireAnim = function (show) {
+        if (show) {
+            this.mcFire.alpha = 1;
+            this.mcFire.gotoAndPlay(1, -1);
+        }
+        else {
+            this.mcFire.alpha = 0;
+            this.mcFire.gotoAndStop(1);
+        }
     };
     return Car;
 }(egret.DisplayObjectContainer));

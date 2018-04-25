@@ -3,13 +3,14 @@ class Car extends egret.DisplayObjectContainer {
     // 动画相关
     private mcFactory:egret.MovieClipDataFactory;
     private mcMove:egret.MovieClip;
+    private mcFire:egret.MovieClip;
+
+    // 小车区域
+    private carRect:egret.Rectangle;
 
     private carWidthHalf:number;
     private roadLeftEdge:number = 0;
     private roadRightEdge:number = 1;
-
-    // 火焰精灵贴图
-    private tailBmp:egret.Bitmap;
 
     // 当前速度（其实就是指一帧移动多少像素）
     private currentSpeed:number = 0;
@@ -24,6 +25,9 @@ class Car extends egret.DisplayObjectContainer {
     // 加速度
     private acceleration:number = 0;
 
+    // 标记是否因方块在加速
+    private inSpeedUp:boolean = false;
+
     public constructor(fixedSpeed:number, acceleration:number) {
         super();
 
@@ -36,10 +40,17 @@ class Car extends egret.DisplayObjectContainer {
         let texture = RES.getRes("car_anim_png");
         this.mcFactory = new egret.MovieClipDataFactory(jsonData, texture);
         this.mcMove = new egret.MovieClip(this.mcFactory.generateMovieClipData("car_anim"));
+        this.mcFire = new egret.MovieClip(this.mcFactory.generateMovieClipData("car_fire"));
+
+        this.mcFire.alpha = 0;
+        this.mcFire.x = (this.mcMove.width - this.mcFire.width) / 2;
+        this.mcFire.y = this.mcMove.y + this.mcMove.height;
 
         this.addChild(this.mcMove);
+        this.addChild(this.mcFire);
 
         this.carWidthHalf = this.width / 2;
+        this.carRect = new egret.Rectangle(this.x, this.y, this.mcMove.width, this.mcMove.height);
 
         //this.addEventListener(egret.TouchEvent.ENTER_FRAME, this., this);
     }
@@ -62,11 +73,22 @@ class Car extends egret.DisplayObjectContainer {
         this.setCarPosition(offsetX);
     }
 
+    public getCarDisplayRect():egret.Rectangle {
+        this.carRect.x = this.x - this.carWidthHalf;
+        this.carRect.y = this.y;
+        return this.carRect;
+    }
+
     // 设置当前速度的增值
     public addToCurrentSpeed(add:number) {
         if (this.currentSpeed > this.fixedSpeed - this.addedSpeedRange
             && this.currentSpeed < this.fixedSpeed + this.addedSpeedRange) {
-                this.currentSpeed += add;
+                this.currentSpeed = this.fixedSpeed + add;
+        }
+        if(!this.inSpeedUp && add > 0) {
+            this.inSpeedUp = true;
+            // 播放加速动画
+            this.showFireAnim(true);
         }
     }
 
@@ -85,6 +107,11 @@ class Car extends egret.DisplayObjectContainer {
             this.currentSpeed -= this.acceleration;
             if (this.currentSpeed < this.realFixedSpeed) {
                 this.currentSpeed = this.realFixedSpeed;
+                // 说明小车加速效果消失了
+                if (this.realFixedSpeed > 0) {
+                    this.inSpeedUp = false;
+                    this.showFireAnim(false);
+                }
             }
         }
         // 小车速度与动画帧率直接相关
@@ -105,6 +132,16 @@ class Car extends egret.DisplayObjectContainer {
             newX = this.roadRightEdge - this.carWidthHalf;
         }
         this.x = newX;
+    }
+
+    private showFireAnim(show:boolean) {
+        if (show) {
+            this.mcFire.alpha = 1;
+            this.mcFire.gotoAndPlay(1, -1);
+        } else {
+            this.mcFire.alpha = 0;
+            this.mcFire.gotoAndStop(1);
+        }
     }
 
 }

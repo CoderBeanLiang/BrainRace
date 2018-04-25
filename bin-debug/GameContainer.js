@@ -19,9 +19,9 @@ var GameContainer = (function (_super) {
         // 稳定速度
         _this.fixedSpeed = 20;
         // 方块增速
-        _this.addedSpeed = 1.5;
+        _this.addedSpeed = 10;
         // 加速度
-        _this.acceleration = 1;
+        _this.acceleration = 0.2;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -89,6 +89,11 @@ var GameContainer = (function (_super) {
         }
     };
     GameContainer.prototype.updateGame = function () {
+        var rect = this.car.getCarDisplayRect();
+        console.log("X", rect.x);
+        console.log("B", rect.bottom);
+        console.log("H", rect.height);
+        console.log("R", rect.right);
         // 因碰撞会影响车速故先检测碰撞
         // 处理障碍物和汽车的碰撞
         var obstacle = this.roadBg.getObstacle();
