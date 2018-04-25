@@ -89,11 +89,6 @@ var GameContainer = (function (_super) {
         }
     };
     GameContainer.prototype.updateGame = function () {
-        var rect = this.car.getCarDisplayRect();
-        console.log("X", rect.x);
-        console.log("B", rect.bottom);
-        console.log("H", rect.height);
-        console.log("R", rect.right);
         // 因碰撞会影响车速故先检测碰撞
         // 处理障碍物和汽车的碰撞
         var obstacle = this.roadBg.getObstacle();
@@ -114,6 +109,9 @@ var GameContainer = (function (_super) {
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);
+        var id = BlockParam.getRandomColorIndex();
+        var name = BlockParam.getColorResNameByIndex(id);
+        console.log("Id", id, name);
     };
     return GameContainer;
 }(egret.DisplayObjectContainer));

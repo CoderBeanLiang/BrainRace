@@ -12,6 +12,41 @@ var BlockParam = (function () {
         var index = Math.floor(Math.random() * 6);
         return BlockParam.colorResArr[index];
     };
+    BlockParam.getRandomColorIndex = function () {
+        return Math.floor(Math.random() * 6);
+    };
+    BlockParam.getColorByIndex = function (index) {
+        if (index >= 0 && index <= BlockParam.COLOR_NUM) {
+            return BlockParam.colorArr[Math.ceil(index)];
+        }
+        return BlockParam.colorArr[0];
+    };
+    BlockParam.getColorResNameByIndex = function (index) {
+        if (index >= 0 && index <= BlockParam.COLOR_NUM) {
+            return BlockParam.colorResArr[Math.ceil(index)];
+        }
+        return BlockParam.colorResArr[0];
+    };
+    BlockParam.getNumResNameArr = function (num) {
+        // 10 是避免死循环，实际不会有这么大的数
+        var nameArr = [];
+        var temp = Math.floor(num);
+        for (var i = 0; i < 10; i++) {
+            if (temp > 0) {
+                var resName = BlockParam.numResArr[temp % 10];
+                nameArr.push(resName);
+                temp = Math.floor(temp / 10);
+            }
+            else {
+                break;
+            }
+        }
+        if (nameArr.length == 0) {
+            nameArr.push(BlockParam.numResArr[0]);
+        }
+        return nameArr;
+    };
+    BlockParam.COLOR_NUM = 6; // 目前6种颜色
     BlockParam.TYPE_COLOR = "Color";
     BlockParam.TYPE_NUMBER = "Number";
     BlockParam.MAGIC_ANSWER = 0xffffff;
@@ -45,6 +80,7 @@ var BlockParam = (function () {
         BlockParam.COLOR_BLUE,
         BlockParam.COLOR_PURPLE
     ];
+    // 需要和上面的顺序一一对应
     BlockParam.colorResArr = [
         BlockParam.RES_RED,
         BlockParam.RES_ORANGE,

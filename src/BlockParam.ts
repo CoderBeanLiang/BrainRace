@@ -1,5 +1,7 @@
 class BlockParam {
 
+    private static COLOR_NUM = 6;// 目前6种颜色
+
     public static TYPE_COLOR:string = "Color";
     public static TYPE_NUMBER:string = "Number";
     public static MAGIC_ANSWER:number = 0xffffff;
@@ -38,6 +40,7 @@ class BlockParam {
         BlockParam.COLOR_PURPLE
     ];
 
+    // 需要和上面的顺序一一对应
     public static colorResArr:string[] = [
         BlockParam.RES_RED,                               
         BlockParam.RES_ORANGE,
@@ -68,6 +71,43 @@ class BlockParam {
     public static getRandomColorRes():string {
         var index = Math.floor(Math.random() * 6);
         return BlockParam.colorResArr[index];
+    }
+
+    public static getRandomColorIndex():number {
+        return Math.floor(Math.random() * 6);
+    }
+
+    public static getColorByIndex(index:number):number {
+        if (index >=0 && index <= BlockParam.COLOR_NUM) {
+            return BlockParam.colorArr[Math.ceil(index)];
+        }
+        return BlockParam.colorArr[0];
+    }
+
+    public static getColorResNameByIndex(index:number):string {
+        if (index >=0 && index <= BlockParam.COLOR_NUM) {
+            return BlockParam.colorResArr[Math.ceil(index)];
+        }
+        return BlockParam.colorResArr[0];
+    }
+
+    public static getNumResNameArr(num:number):string[] {
+        // 10 是避免死循环，实际不会有这么大的数
+        let nameArr:string[] = [];
+        var temp = Math.floor(num);
+        for (var i = 0; i < 10; i++) {
+            if (temp > 0) {
+                let resName = BlockParam.numResArr[temp % 10];
+                nameArr.push(resName);
+                temp = Math.floor(temp / 10);
+            } else {
+                break;
+            }
+        }
+        if (nameArr.length == 0) {
+            nameArr.push(BlockParam.numResArr[0]);
+        }
+        return nameArr;
     }
 
 }
