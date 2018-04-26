@@ -12,8 +12,8 @@ var GameContainer = (function (_super) {
     __extends(GameContainer, _super);
     function GameContainer() {
         var _this = _super.call(this) || this;
-        _this.gasInit = 1000;
-        _this.gasMax = 2000;
+        _this.gasInit = 5000;
+        _this.gasMax = 50000;
         _this.gasAdd = 100;
         // 当前速度
         _this.currentSpeed = 0;
@@ -22,7 +22,7 @@ var GameContainer = (function (_super) {
         // 方块增速
         _this.addedSpeed = 10;
         // 加速度
-        _this.acceleration = 0.2;
+        _this.acceleration = 0.5;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -49,6 +49,10 @@ var GameContainer = (function (_super) {
         this.car.setRoadEdge(roadLeftEdge, roadRightEdge);
         this.gas = new Gas(this.gasInit, this.gasMax);
         this.addChild(this.gas);
+        this.score = new Score();
+        this.addChild(this.score);
+        this.score.x = this.stageW - this.score.width;
+        // ReadyGo必须最后添加，因为移除时移除的最上层子容器
         var readyTimer = new ReadyTimer();
         readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
         this.addChild(readyTimer);
@@ -122,6 +126,7 @@ var GameContainer = (function (_super) {
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);
         this.gas.updateGas(this.currentSpeed);
+        this.score.updateScore(this.currentSpeed);
     };
     return GameContainer;
 }(egret.DisplayObjectContainer));

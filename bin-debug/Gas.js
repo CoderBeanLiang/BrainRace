@@ -23,12 +23,12 @@ var Gas = (function (_super) {
         this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
         var bg = new egret.Shape();
         bg.graphics.beginFill(0x000000);
-        bg.graphics.drawRect(0, 0, 200, 100);
+        bg.graphics.drawRect(0, 0, 200, 50);
         bg.graphics.endFill();
         this.addChild(bg);
         this.gasText = new egret.TextField();
         this.gasText.width = 200;
-        this.gasText.height = 100;
+        this.gasText.height = 50;
         this.gasText.text = "GAS：" + this.gas;
         this.addChild(this.gasText);
     };

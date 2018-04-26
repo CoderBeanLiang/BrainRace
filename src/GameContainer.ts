@@ -12,9 +12,11 @@ class GameContainer extends egret.DisplayObjectContainer {
     //private roadLeftEdge:number;
     //private roadRightEdge:number;
 
+    private score:Score;
+
     private gas:Gas;
-    private gasInit:number = 1000;
-    private gasMax:number = 2000;
+    private gasInit:number = 5000;
+    private gasMax:number = 50000;
     private gasAdd:number = 100;
     private hasGas:boolean;
 
@@ -28,7 +30,7 @@ class GameContainer extends egret.DisplayObjectContainer {
     // 方块增速
     private addedSpeed = 10;
     // 加速度
-    private acceleration = 0.2;
+    private acceleration = 0.5;
 
     public constructor() {
         super();
@@ -64,6 +66,11 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.gas = new Gas(this.gasInit, this.gasMax);
         this.addChild(this.gas);
 
+        this.score = new Score();
+        this.addChild(this.score);
+        this.score.x = this.stageW - this.score.width;
+
+        // ReadyGo必须最后添加，因为移除时移除的最上层子容器
         let readyTimer = new ReadyTimer();
         readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
         this.addChild(readyTimer);
@@ -146,5 +153,6 @@ class GameContainer extends egret.DisplayObjectContainer {
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);
         this.gas.updateGas(this.currentSpeed);
+        this.score.updateScore(this.currentSpeed);
     }
 }
