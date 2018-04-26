@@ -6,14 +6,17 @@ class GameContainer extends egret.DisplayObjectContainer {
 
     private lastTouchMoveX:number;
 
-    // 标识小车是否运行
-    private isRunning:boolean = false;
-
     // 路面背景
     private roadBg:Background;
     // 路面左右边缘
     //private roadLeftEdge:number;
     //private roadRightEdge:number;
+
+    private gas:Gas;
+    private gasInit:number = 1000;
+    private gasMax:number = 2000;
+    private gasAdd:number = 100;
+    private hasGas:boolean;
 
     // 玩家赛车
     private car:Car;
@@ -47,6 +50,7 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.addChild(this.roadBg);
 
         this.car = new Car(this.fixedSpeed, this.acceleration);
+        this.car.addEventListener(Car.COMPLETE_STOP, this.gameStop, this);
         this.carWidthHalf = this.car.width / 2;
         this.car.anchorOffsetX = this.carWidthHalf;
         this.car.y = this.stageH  / 3 * 2;
@@ -57,23 +61,19 @@ class GameContainer extends egret.DisplayObjectContainer {
         let roadRightEdge = Math.floor(this.roadBg.getRightEdge());
         this.car.setRoadEdge(roadLeftEdge, roadRightEdge);
 
+        this.gas = new Gas(this.gasInit, this.gasMax);
+        this.addChild(this.gas);
+
         let readyTimer = new ReadyTimer();
         readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
         this.addChild(readyTimer);
 
         // let buttonStop = new eui.Button();
-        // buttonStop.label = "stop";
+        // buttonStop.label = "pause";
         // buttonStop.x = this.stageW - 100;
         // buttonStop.y = 10;
         // this.addChild(buttonStop);
         // buttonStop.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
-
-        // let buttonStart = new eui.Button();
-        // buttonStart.label = "start";
-        // buttonStart.x = this.stageW - 200;
-        // buttonStart.y = 10;
-        // this.addChild(buttonStart);
-        // buttonStart.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
     }
 
     // private onButtonClick(evt: egret.TouchEvent) {
@@ -94,6 +94,12 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.parent.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.touchHandler, this);
 
         this.car.start();
+        this.hasGas = true;
+    }
+
+    private gameStop() {
+        this.removeEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
+        // 显示分数或者分发结束事件给Main.ts
     }
 
     private touchHandler(evt:egret.TouchEvent) {
@@ -108,6 +114,7 @@ class GameContainer extends egret.DisplayObjectContainer {
     }
 
     private updateGame() {
+
         // 因碰撞会影响车速故先检测碰撞
         // 处理障碍物和汽车的碰撞
         let obstacle = this.roadBg.getObstacle();
@@ -117,16 +124,27 @@ class GameContainer extends egret.DisplayObjectContainer {
                 break;  // 后续障碍物都在汽车上方，不做判断
             } else if(UtilObject.overlay(this.car, obstacle[i])) {
                 console.log("overlay");
+                // 没油了停止检测
+                if (!this.hasGas) {
+                    break;
+                }
                 // 判断答案是否正确
                 // 假设调试
                 this.car.addToCurrentSpeed(this.addedSpeed);
+                this.gas.addToGas(this.gasAdd);
                 // 理论上同一时刻应仅有一个方块和车产生碰撞，此处应有break
             }
+        }
+
+        if (this.gas.getGasLast() <= 0) {
+            this.car.stop();
+            this.hasGas = false;
         }
 
         // 获取小车当前速度
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);
+        this.gas.updateGas(this.currentSpeed);
     }
 }
