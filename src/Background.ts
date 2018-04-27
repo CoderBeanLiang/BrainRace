@@ -12,6 +12,8 @@ class Background extends egret.DisplayObjectContainer {
 
 	private question: Question;
 
+	private
+
 	public constructor() {
 
 		super();
@@ -49,6 +51,36 @@ class Background extends egret.DisplayObjectContainer {
 	// 返回障碍物列表
 	public getObstacle(): Array<egret.DisplayObject> {
 		return this.obstacle;
+	}
+
+	public onOverlapEnter(obj: egret.DisplayObject, obs: egret.DisplayObject): void {
+
+		if(obs instanceof Block) {
+
+			let question = this.question;
+			if(question.judge(obs)) {
+				// 答案正确
+				if(obj instanceof Car) {
+                	obj.addToCurrentSpeed(10);
+				}
+			} else {
+				// 答案错误
+			}
+		}
+	}
+
+	public onOverlapExit(obj: egret.DisplayObject, obs: egret.DisplayObject): void {
+		if(obs instanceof Block) {
+			let question = this.question;
+			if(question.judge(obs)) {
+				// 答案正确
+				if(obj instanceof Car) {
+					this.question = new QuestionColor();
+				}
+			} else {
+				// 答案错误
+			}
+		}
 	}
 
 	private initMember(): void {
@@ -108,7 +140,11 @@ class Background extends egret.DisplayObjectContainer {
 	private shiftObstacle(): void {
 		let obstacle = this.obstacle;
 		let block = obstacle.shift();
+		let question = this.question;
 		this.removeChild(block);
+		if(block instanceof Block) {
+			question.reclaim(block);
+		}
 	}
 
 
@@ -116,10 +152,6 @@ class Background extends egret.DisplayObjectContainer {
 
 		let question = this.question;
 		if(question == null) {
-			this.question = new QuestionColor();
-			question = this.question;
-		}
-		if(question.empty()) {
 			this.question = new QuestionColor();
 			question = this.question;
 		}
@@ -160,7 +192,7 @@ class Background extends egret.DisplayObjectContainer {
 				this.shiftObstacle();
 			}
 		}
-		// 删除窗口顶部的障碍物
+		// 添加窗口顶部的障碍物
 		if(obstacle.length > 0)
 		{
 			let index = obstacle.length - 1;

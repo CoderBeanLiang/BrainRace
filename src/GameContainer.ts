@@ -26,6 +26,8 @@ class GameContainer extends egret.DisplayObjectContainer {
     private addedSpeed = 10;
     // 加速度
     private acceleration = 0.2;
+    // 碰撞物体记录
+    private objectCollision: egret.DisplayObject;
 
     public constructor() {
         super();
@@ -109,24 +111,34 @@ class GameContainer extends egret.DisplayObjectContainer {
 
     private updateGame() {
         // 因碰撞会影响车速故先检测碰撞
-        // 处理障碍物和汽车的碰撞
-        let obstacle = this.roadBg.getObstacle();
-        let cartop = UtilObject.BitmapTop(this.car);
-        for(var i = 0; i < obstacle.length; ++i) {
-            if(UtilObject.BitmapBottom(obstacle[i]) < cartop) {
-                break;  // 后续障碍物都在汽车上方，不做判断
-            } else if(UtilObject.overlay(this.car, obstacle[i])) {
-                console.log("overlay");
-                // 判断答案是否正确
-                // 假设调试
-                this.car.addToCurrentSpeed(this.addedSpeed);
-                // 理论上同一时刻应仅有一个方块和车产生碰撞，此处应有break
-            }
-        }
-
+        this.updateCollision();
         // 获取小车当前速度
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);
+    }
+
+    private updateCollision(): void {
+        // 处理障碍物和汽车的碰撞
+        let obstacle = this.roadBg.getObstacle();
+        let carTop = UtilObject.BitmapTop(this.car);
+        let carRect = this.car.getCarDisplayRect();
+
+        if(this.objectCollision != null) {
+            if(!UtilObject.Overlay(carRect, this.objectCollision)) {
+                    this.roadBg.onOverlapExit(this.car, this.objectCollision);
+                    this.objectCollision = null;
+            }
+        }
+
+        for(var i = 0; i < obstacle.length; ++i) {
+            if(UtilObject.BitmapBottom(obstacle[i]) < carTop) {
+                break;  // 后续障碍物都在汽车上方，不做判断
+            } else if(UtilObject.Overlay(carRect, obstacle[i])) {
+                this.objectCollision = obstacle[i];
+                this.roadBg.onOverlapEnter(this.car, obstacle[i]);
+                // 理论上同一时刻应仅有一个方块和车产生碰撞，此处应有break
+            }
+        }
     }
 }

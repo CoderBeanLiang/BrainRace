@@ -23,10 +23,16 @@ class UtilObject {
 		return bitmap.height * bitmap.scaleY;
 	}
 
-	public static overlay(obj: egret.DisplayObject, obs: egret.DisplayObject) {
-		return this.BitmapRight(obj) < this.BitmapLeft(obs)
-		 || this.BitmapLeft(obj) > this.BitmapRight(obs)
-		 || this.BitmapBottom(obj) < this.BitmapTop(obs)
-		 || this.BitmapTop(obj) > this.BitmapBottom(obs) ? false : true;
+	public static Overlay(obj: egret.Rectangle, obs: egret.DisplayObject) {
+		let rect = new egret.Rectangle();
+		rect.top = UtilObject.BitmapTop(obs);
+		rect.left = UtilObject.BitmapLeft(obs);
+		rect.right = UtilObject.BitmapRight(obs);
+		rect.bottom = UtilObject.BitmapBottom(obs);
+		return this.OverlayRectangle(obj, rect);
+	}
+
+	public static OverlayRectangle(obj: egret.Rectangle, obs: egret.Rectangle) {
+		return obj.right < obs.left	|| obj.left > obs.right || obj.bottom < obs.top || obj.top > obs.bottom ? false : true;
 	}
 }

@@ -1,15 +1,13 @@
 abstract class Question {
 
-	private wrong: number = 1;
-	private correct: number = 1;
-	private description: String;
+	protected wrong: number = 2;
+	protected correct: number = 1;
+	protected description: String;
 
 	public constructor() {
 
-	}
+		this.initCount();
 
-	public empty(): boolean {
-		return this.wrong + this.correct <= 0;
 	}
 
 	public produce(): Block {
@@ -19,9 +17,10 @@ abstract class Question {
 		let total = wrong + correct;
 
 		if(total == 0) {
-			return null;
+			this.initCount();
+			return this.produce();
 		}
-		else{
+		else {
 			let index = Math.floor(total * Math.random());
 			if(index < wrong) {
 				--this.wrong;
@@ -33,7 +32,27 @@ abstract class Question {
 		}
 	}
 
+	public title(): String {
+		return this.produceDescription();	
+	}
+	
+	public reclaim(block: Block): void {
+		this.reclaimBlock(block);
+	}
+
+	public judge(block: Block): boolean {
+		return this.judgeBlock(block);
+	}
+
 	protected abstract produceWrong(): Block;
 
 	protected abstract produceCorrect(): Block;
+
+	protected abstract produceDescription(): String;
+
+	protected abstract initCount(): boolean;
+
+	protected abstract judgeBlock(block: Block): boolean;
+
+	protected abstract reclaimBlock(block: Block): void;
 }
