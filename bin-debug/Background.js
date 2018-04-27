@@ -47,6 +47,12 @@ var Background = (function (_super) {
     Background.prototype.getObstacle = function () {
         return this.obstacle;
     };
+    Background.prototype.getQuestion = function () {
+        return this.question;
+    };
+    Background.prototype.newQuestion = function () {
+        this.question = new QuestionColor();
+    };
     Background.prototype.initMember = function () {
     };
     Background.prototype.initListener = function () {
@@ -96,15 +102,15 @@ var Background = (function (_super) {
     Background.prototype.shiftObstacle = function () {
         var obstacle = this.obstacle;
         var block = obstacle.shift();
+        var question = this.question;
         this.removeChild(block);
+        if (block instanceof Block) {
+            question.reclaim(block);
+        }
     };
     Background.prototype.produceObstacle = function () {
         var question = this.question;
         if (question == null) {
-            this.question = new QuestionColor();
-            question = this.question;
-        }
-        if (question.empty()) {
             this.question = new QuestionColor();
             question = this.question;
         }
@@ -138,7 +144,7 @@ var Background = (function (_super) {
                 this.shiftObstacle();
             }
         }
-        // 删除窗口顶部的障碍物
+        // 添加窗口顶部的障碍物
         if (obstacle.length > 0) {
             var index = obstacle.length - 1;
             if (UtilObject.BitmapTop(obstacle[index]) > 0) {

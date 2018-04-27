@@ -11,15 +11,41 @@ r.prototype = e.prototype, t.prototype = new r();
 var QuestionColor = (function (_super) {
     __extends(QuestionColor, _super);
     function QuestionColor() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        _this.index = BlockParam.getRandomColorIndex();
+        console.log("new quest " + BlockParam.getColorResNameByIndex(_this.index));
+        return _this;
     }
     QuestionColor.prototype.produceWrong = function () {
-        var color = BlockParam.getRandomColor();
+        var color = this.randomColor();
         return Block.produce(BlockParam.TYPE_COLOR, color);
     };
     QuestionColor.prototype.produceCorrect = function () {
-        var color = BlockParam.getRandomColor();
+        var color = BlockParam.getColorByIndex(this.index);
         return Block.produce(BlockParam.TYPE_COLOR, color);
+    };
+    QuestionColor.prototype.produceDescription = function () {
+        return BlockParam.getColorResNameByIndex(this.index);
+    };
+    QuestionColor.prototype.initCount = function () {
+        this.wrong = 2;
+        this.correct = 1;
+        return true;
+    };
+    QuestionColor.prototype.judgeBlock = function (block) {
+        return block.getAnswer() == BlockParam.getColorByIndex(this.index);
+    };
+    QuestionColor.prototype.reclaimBlock = function (block) {
+        Block.reclaim(block, BlockParam.TYPE_COLOR);
+    };
+    QuestionColor.prototype.randomColor = function () {
+        var index = BlockParam.getRandomColorIndex();
+        if (index == this.index) {
+            return this.randomColor();
+        }
+        else {
+            return BlockParam.getColorByIndex(index);
+        }
     };
     return QuestionColor;
 }(Question));

@@ -3,18 +3,17 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 };
 var Question = (function () {
     function Question() {
-        this.wrong = 1;
+        this.wrong = 2;
         this.correct = 1;
+        this.initCount();
     }
-    Question.prototype.empty = function () {
-        return this.wrong + this.correct <= 0;
-    };
     Question.prototype.produce = function () {
         var wrong = this.wrong;
         var correct = this.correct;
         var total = wrong + correct;
         if (total == 0) {
-            return null;
+            this.initCount();
+            return this.produce();
         }
         else {
             var index = Math.floor(total * Math.random());
@@ -27,6 +26,15 @@ var Question = (function () {
                 return this.produceCorrect();
             }
         }
+    };
+    Question.prototype.title = function () {
+        return this.produceDescription();
+    };
+    Question.prototype.reclaim = function (block) {
+        this.reclaimBlock(block);
+    };
+    Question.prototype.judge = function (block) {
+        return this.judgeBlock(block);
     };
     return Question;
 }());

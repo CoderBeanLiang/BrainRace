@@ -19,11 +19,16 @@ var UtilObject = (function () {
     UtilObject.BitmapHeight = function (bitmap) {
         return bitmap.height * bitmap.scaleY;
     };
-    UtilObject.overlay = function (obj, obs) {
-        return this.BitmapRight(obj) < this.BitmapLeft(obs)
-            || this.BitmapLeft(obj) > this.BitmapRight(obs)
-            || this.BitmapBottom(obj) < this.BitmapTop(obs)
-            || this.BitmapTop(obj) > this.BitmapBottom(obs) ? false : true;
+    UtilObject.Overlay = function (obj, obs) {
+        var rect = new egret.Rectangle();
+        rect.top = UtilObject.BitmapTop(obs);
+        rect.left = UtilObject.BitmapLeft(obs);
+        rect.right = UtilObject.BitmapRight(obs);
+        rect.bottom = UtilObject.BitmapBottom(obs);
+        return this.OverlayRectangle(obj, rect);
+    };
+    UtilObject.OverlayRectangle = function (obj, obs) {
+        return obj.right < obs.left || obj.left > obs.right || obj.bottom < obs.top || obj.top > obs.bottom ? false : true;
     };
     return UtilObject;
 }());

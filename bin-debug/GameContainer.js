@@ -97,14 +97,28 @@ var GameContainer = (function (_super) {
     };
     GameContainer.prototype.updateGame = function () {
         // 因碰撞会影响车速故先检测碰撞
+        this.updateCollision();
+        // 获取小车当前速度
+        this.currentSpeed = this.car.getCurrentSpeed();
+        // 更新其他部件的位置
+        this.roadBg.setSpeed(this.currentSpeed);
+    };
+    GameContainer.prototype.updateCollision = function () {
         // 处理障碍物和汽车的碰撞
         var obstacle = this.roadBg.getObstacle();
-        var cartop = UtilObject.BitmapTop(this.car);
+        var carTop = UtilObject.BitmapTop(this.car);
+        var carRect = this.car.getCarDisplayRect();
+        if (this.objectCollision != null) {
+            if (!UtilObject.Overlay(carRect, this.objectCollision)) {
+                this.onOverlapExit(this.car, this.objectCollision);
+                this.objectCollision = null;
+            }
+        }
         for (var i = 0; i < obstacle.length; ++i) {
-            if (UtilObject.BitmapBottom(obstacle[i]) < cartop) {
+            if (UtilObject.BitmapBottom(obstacle[i]) < carTop) {
                 break; // 后续障碍物都在汽车上方，不做判断
             }
-            else if (UtilObject.overlay(this.car, obstacle[i])) {
+            else if (UtilObject.Overlay(carRect, obstacle[i])) {
                 console.log("overlay");
                 // 没油了停止检测
                 if (!this.hasGas) {
@@ -112,8 +126,8 @@ var GameContainer = (function (_super) {
                 }
                 // 判断答案是否正确
                 // 假设调试
-                this.car.addToCurrentSpeed(this.addedSpeed);
-                this.gas.addToGas(this.gasAdd);
+                this.onOverlapEnter(this.car, obstacle[i]);
+                this.objectCollision = obstacle[i];
                 // 理论上同一时刻应仅有一个方块和车产生碰撞，此处应有break
             }
         }
@@ -127,6 +141,39 @@ var GameContainer = (function (_super) {
         this.roadBg.setSpeed(this.currentSpeed);
         this.gas.updateGas(this.currentSpeed);
         this.score.updateScore(this.currentSpeed);
+    };
+    GameContainer.prototype.onOverlapEnter = function (obj, obs) {
+        if (obs instanceof Block) {
+            var question = this.roadBg.getQuestion();
+            if (question.judge(obs)) {
+                // 答案正确
+                if (obj instanceof Car) {
+                    this.car.addToCurrentSpeed(this.addedSpeed);
+                    this.gas.addToGas(this.gasAdd);
+                }
+            }
+            else {
+                // 答案错误
+                if (obj instanceof Car) {
+                    this.car.addToCurrentSpeed(-this.addedSpeed);
+                    this.gas.addToGas(-this.gasAdd);
+                }
+            }
+        }
+    };
+    GameContainer.prototype.onOverlapExit = function (obj, obs) {
+        if (obs instanceof Block) {
+            var question = this.roadBg.getQuestion();
+            if (question.judge(obs)) {
+                // 答案正确
+                if (obj instanceof Car) {
+                    this.roadBg.newQuestion();
+                }
+            }
+            else {
+                // 答案错误
+            }
+        }
     };
     return GameContainer;
 }(egret.DisplayObjectContainer));

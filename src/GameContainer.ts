@@ -188,6 +188,10 @@ class GameContainer extends egret.DisplayObjectContainer {
 				}
 			} else {
 				// 答案错误
+                if(obj instanceof Car) {
+                    this.car.addToCurrentSpeed(-this.addedSpeed);
+                    this.gas.addToGas(-this.gasAdd);
+				}
 			}
 		}
 	}
