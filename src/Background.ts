@@ -53,34 +53,12 @@ class Background extends egret.DisplayObjectContainer {
 		return this.obstacle;
 	}
 
-	public onOverlapEnter(obj: egret.DisplayObject, obs: egret.DisplayObject): void {
-
-		if(obs instanceof Block) {
-
-			let question = this.question;
-			if(question.judge(obs)) {
-				// 答案正确
-				if(obj instanceof Car) {
-                	obj.addToCurrentSpeed(10);
-				}
-			} else {
-				// 答案错误
-			}
-		}
+	public getQuestion(): Question {
+		return this.question;
 	}
 
-	public onOverlapExit(obj: egret.DisplayObject, obs: egret.DisplayObject): void {
-		if(obs instanceof Block) {
-			let question = this.question;
-			if(question.judge(obs)) {
-				// 答案正确
-				if(obj instanceof Car) {
-					this.question = new QuestionColor();
-				}
-			} else {
-				// 答案错误
-			}
-		}
+	public newQuestion(): void {
+		this.question = new QuestionColor();
 	}
 
 	private initMember(): void {

@@ -91,11 +91,14 @@ var Car = (function (_super) {
             this.currentSpeed -= this.acceleration;
             if (this.currentSpeed < this.realFixedSpeed) {
                 this.currentSpeed = this.realFixedSpeed;
+            }
+            if (this.currentSpeed == this.realFixedSpeed || this.realFixedSpeed <= 0) {
                 // 说明小车加速效果消失了
-                if (this.realFixedSpeed > 0) {
-                    this.inSpeedUp = false;
-                    this.showFireAnim(false);
-                }
+                this.inSpeedUp = false;
+                this.showFireAnim(false);
+            }
+            if (this.realFixedSpeed <= 0 && this.currentSpeed <= 0) {
+                this.completeStop();
             }
         }
         // 小车速度与动画帧率直接相关
@@ -126,6 +129,10 @@ var Car = (function (_super) {
             this.mcFire.gotoAndStop(1);
         }
     };
+    Car.prototype.completeStop = function () {
+        this.dispatchEventWith(Car.COMPLETE_STOP);
+    };
+    Car.COMPLETE_STOP = "CompleteStop";
     return Car;
 }(egret.DisplayObjectContainer));
 __reflect(Car.prototype, "Car");

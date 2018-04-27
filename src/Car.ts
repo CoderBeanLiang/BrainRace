@@ -1,5 +1,7 @@
 class Car extends egret.DisplayObjectContainer {
 
+    public static COMPLETE_STOP:string = "CompleteStop";
+
     // 动画相关
     private mcFactory:egret.MovieClipDataFactory;
     private mcMove:egret.MovieClip;
@@ -107,11 +109,14 @@ class Car extends egret.DisplayObjectContainer {
             this.currentSpeed -= this.acceleration;
             if (this.currentSpeed < this.realFixedSpeed) {
                 this.currentSpeed = this.realFixedSpeed;
+            }
+            if (this.currentSpeed == this.realFixedSpeed || this.realFixedSpeed <= 0) {
                 // 说明小车加速效果消失了
-                if (this.realFixedSpeed > 0) {
-                    this.inSpeedUp = false;
-                    this.showFireAnim(false);
-                }
+                this.inSpeedUp = false;
+                this.showFireAnim(false);
+            }
+            if (this.realFixedSpeed <= 0 && this.currentSpeed <= 0) {
+                this.completeStop();
             }
         }
         // 小车速度与动画帧率直接相关
@@ -142,6 +147,10 @@ class Car extends egret.DisplayObjectContainer {
             this.mcFire.alpha = 0;
             this.mcFire.gotoAndStop(1);
         }
+    }
+
+    private completeStop() {
+        this.dispatchEventWith(Car.COMPLETE_STOP);
     }
 
 }
