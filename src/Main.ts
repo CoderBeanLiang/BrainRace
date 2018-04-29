@@ -29,10 +29,6 @@
 
 class Main extends eui.UILayer {
 
-    private runBtn:eui.Button;
-
-    private retryBtn:eui.Button;
-
     private gameContainer:GameContainer;
 
 
@@ -67,7 +63,7 @@ class Main extends eui.UILayer {
         await this.loadResource()
         this.createGameScene();
         const result = await RES.getResAsync("description_json")
-        this.startAnimation(result);
+        // this.startAnimation(result);
         await platform.login();
         const userInfo = await platform.getUserInfo();
         console.log(userInfo);
@@ -100,19 +96,12 @@ class Main extends eui.UILayer {
         })
     }
 
-    private textfield: egret.TextField;
     /**
      * 创建场景界面
      * Create scene interface
      */
     protected createGameScene(): void {
-
-        this.runBtn = new eui.Button();
-        this.runBtn.label = "Click!";
-        this.runBtn.horizontalCenter = 0;
-        this.runBtn.verticalCenter = 0;
-        this.addChild(this.runBtn);
-        this.runBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        this.onInit();
     }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -124,63 +113,40 @@ class Main extends eui.UILayer {
         result.texture = texture;
         return result;
     }
-    /**
-     * 描述文件加载成功，开始播放动画
-     * Description file loading is successful, start to play the animation
-     */
-    private startAnimation(result: Array<any>): void {
-        let parser = new egret.HtmlTextParser();
 
-        let textflowArr = result.map(text => parser.parse(text));
-        let textfield = this.textfield;
-        let count = -1;
-        let change = () => {
-            count++;
-            if (count >= textflowArr.length) {
-                count = 0;
-            }
-            let textFlow = textflowArr[count];
 
-            // 切换描述内容
-            // Switch to described content
-            textfield.textFlow = textFlow;
-            let tw = egret.Tween.get(textfield);
-            tw.to({ "alpha": 1 }, 200);
-            tw.wait(2000);
-            tw.to({ "alpha": 0 }, 200);
-            tw.call(change, this);
-        };
+    private onInit() {
+        this.removeChildren();
 
-        change();
+        let home = new Home();
+        home.once(Home.START_CLICK, this.onStart, this);
+        this.addChild(home);
     }
 
-    private createPlayScene(): void {
-
-        if (this.contains(this.gameContainer)) {
-            this.removeChild(this.gameContainer);
-        }
+    private onStart() {
+        this.removeChildren();
 
         this.gameContainer = new GameContainer();
+        this.gameContainer.once(Car.COMPLETE_STOP, this.onEnd, this);
         this.addChild(this.gameContainer);
-
-        this.retryBtn = new eui.Button();
-        this.retryBtn.label = "Retry";
-        this.addChild(this.retryBtn);
-        this.retryBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTest, this);
-        this.retryBtn.x = this.stage.stageWidth - this.retryBtn.width;
-        this.retryBtn.y = this.stage.stageHeight - this.retryBtn.height;
     }
 
-    /**
-     * 点击按钮
-     * Click the button
-     */
-    private onButtonClick(e: egret.TouchEvent) {
-        this.createPlayScene();
-        console.log("Main Click", this.retryBtn.x);
+    private onEnd() {
+        let mask = new egret.Shape();
+        mask.graphics.beginFill(0x000000);
+        mask.graphics.drawRect(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        mask.graphics.endFill();
+        mask.alpha = 0.6;
+        this.addChild(mask);
+
+        let retry = new egret.Bitmap(RES.getRes("retry_png"));
+        retry.touchEnabled = true;
+        retry.anchorOffsetX = retry.width / 2;
+        retry.anchorOffsetY = retry.height / 2;
+        retry.x = this.stage.stageWidth / 2;
+        retry.y = this.stage.stageHeight / 2;
+        retry.once(egret.TouchEvent.TOUCH_TAP, this.onStart, this);
+        this.addChild(retry);
     }
 
-    private onTest(e: egret.TouchEvent) {
-        this.createPlayScene();
-    }
 }

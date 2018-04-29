@@ -24,11 +24,16 @@ var GameContainer = (function (_super) {
         // 加速度
         _this.acceleration = 0.5;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
+        _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.onRemovedFromStage, _this);
         return _this;
     }
     GameContainer.prototype.onAddToStage = function (event) {
         this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
         this.createGameScene();
+    };
+    GameContainer.prototype.onRemovedFromStage = function (event) {
+        this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedFromStage, this);
+        this.readyTimer.removeEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
     };
     // 创建场景，指游戏时的场景，路面，车辆，方块等
     GameContainer.prototype.createGameScene = function () {
@@ -53,9 +58,9 @@ var GameContainer = (function (_super) {
         this.addChild(this.score);
         this.score.x = this.stageW - this.score.width;
         // ReadyGo必须最后添加，因为移除时移除的最上层子容器
-        var readyTimer = new ReadyTimer();
-        readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
-        this.addChild(readyTimer);
+        this.readyTimer = new ReadyTimer();
+        this.readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
+        this.addChild(this.readyTimer);
         // let buttonStop = new eui.Button();
         // buttonStop.label = "pause";
         // buttonStop.x = this.stageW - 100;
@@ -82,6 +87,7 @@ var GameContainer = (function (_super) {
     };
     GameContainer.prototype.gameStop = function () {
         this.removeEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
+        this.dispatchEventWith(Car.COMPLETE_STOP);
         // 显示分数或者分发结束事件给Main.ts
     };
     GameContainer.prototype.touchHandler = function (evt) {

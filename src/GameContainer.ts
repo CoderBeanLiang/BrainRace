@@ -116,6 +116,7 @@ class GameContainer extends egret.DisplayObjectContainer {
 
     private gameStop() {
         this.removeEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
+        this.dispatchEventWith(Car.COMPLETE_STOP);
         // 显示分数或者分发结束事件给Main.ts
     }
 

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,road_png,block_zero_png,block_blue_png,block_eight_png,block_five_png,block_four_png,block_green_png,block_nine_png,block_one_png,block_orange_png,block_purple_png,block_red_png,block_seven_png,block_six_png,block_three_png,block_two_png,block_yellow_png,car_anim_png,car_anim_json,ready_png,ready_go_png,tree1_png,tree2_png,tree3_png,tree4_png,tree5_png,tree6_png,tree7_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,road_png,block_zero_png,block_blue_png,block_eight_png,block_five_png,block_four_png,block_green_png,block_nine_png,block_one_png,block_orange_png,block_purple_png,block_red_png,block_seven_png,block_six_png,block_three_png,block_two_png,block_yellow_png,car_anim_png,car_anim_json,ready_png,ready_go_png,tree1_png,tree2_png,tree3_png,tree4_png,tree5_png,tree6_png,tree7_png,icon_home_png,share_png,retry_png,sort_png,start_png",
 			"name": "preload"
 		}
 	],
@@ -275,6 +275,31 @@
 			"name": "tree7_png",
 			"type": "image",
 			"url": "assets/tree/tree7.png"
+		},
+		{
+			"name": "icon_home_png",
+			"type": "image",
+			"url": "assets/icon_home.png"
+		},
+		{
+			"name": "share_png",
+			"type": "image",
+			"url": "assets/share.png"
+		},
+		{
+			"name": "retry_png",
+			"type": "image",
+			"url": "assets/retry.png"
+		},
+		{
+			"name": "sort_png",
+			"type": "image",
+			"url": "assets/sort.png"
+		},
+		{
+			"name": "start_png",
+			"type": "image",
+			"url": "assets/start.png"
 		}
 	]
 }

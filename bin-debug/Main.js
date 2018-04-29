@@ -105,12 +105,15 @@ var Main = (function (_super) {
                     case 1:
                         _a.sent();
                         this.createGameScene();
-                        return [4 /*yield*/, RES.getResAsync("description_json")];
+                        return [4 /*yield*/, RES.getResAsync("description_json")
+                            // this.startAnimation(result);
+                        ];
                     case 2:
                         result = _a.sent();
-                        this.startAnimation(result);
+                        // this.startAnimation(result);
                         return [4 /*yield*/, platform.login()];
                     case 3:
+                        // this.startAnimation(result);
                         _a.sent();
                         return [4 /*yield*/, platform.getUserInfo()];
                     case 4:
@@ -166,12 +169,7 @@ var Main = (function (_super) {
      * Create scene interface
      */
     Main.prototype.createGameScene = function () {
-        this.runBtn = new eui.Button();
-        this.runBtn.label = "Click!";
-        this.runBtn.horizontalCenter = 0;
-        this.runBtn.verticalCenter = 0;
-        this.addChild(this.runBtn);
-        this.runBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        this.onInit();
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -183,53 +181,33 @@ var Main = (function (_super) {
         result.texture = texture;
         return result;
     };
-    /**
-     * 描述文件加载成功，开始播放动画
-     * Description file loading is successful, start to play the animation
-     */
-    Main.prototype.startAnimation = function (result) {
-        var _this = this;
-        var parser = new egret.HtmlTextParser();
-        var textflowArr = result.map(function (text) { return parser.parse(text); });
-        var textfield = this.textfield;
-        var count = -1;
-        var change = function () {
-            count++;
-            if (count >= textflowArr.length) {
-                count = 0;
-            }
-            var textFlow = textflowArr[count];
-            // 切换描述内容
-            // Switch to described content
-            textfield.textFlow = textFlow;
-            var tw = egret.Tween.get(textfield);
-            tw.to({ "alpha": 1 }, 200);
-            tw.wait(2000);
-            tw.to({ "alpha": 0 }, 200);
-            tw.call(change, _this);
-        };
-        change();
+    Main.prototype.onInit = function () {
+        this.removeChildren();
+        var home = new Home();
+        home.once(Home.START_CLICK, this.onStart, this);
+        this.addChild(home);
     };
-    /**
-     * 点击按钮
-     * Click the button
-     */
-    Main.prototype.onButtonClick = function (e) {
-        if (this.contains(this.gameContainer)) {
-            this.removeChild(this.gameContainer);
-        }
+    Main.prototype.onStart = function () {
+        this.removeChildren();
         this.gameContainer = new GameContainer();
+        this.gameContainer.once(Car.COMPLETE_STOP, this.onEnd, this);
         this.addChild(this.gameContainer);
-        this.runBtn = new eui.Button();
-        this.runBtn.label = "Retry";
-        this.addChild(this.runBtn);
-        this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTest, this);
-        this.runBtn.x = this.stage.stageWidth - this.runBtn.width;
-        this.runBtn.y = this.stage.stageHeight - this.runBtn.height;
-        console.log("Main Click", this.runBtn.x);
     };
-    Main.prototype.onTest = function (e) {
-        this.removeChild(this.gameContainer);
+    Main.prototype.onEnd = function () {
+        var mask = new egret.Shape();
+        mask.graphics.beginFill(0x000000);
+        mask.graphics.drawRect(0, 0, this.stage.stageWidth, this.stage.stageHeight);
+        mask.graphics.endFill();
+        mask.alpha = 0.6;
+        this.addChild(mask);
+        var retry = new egret.Bitmap(RES.getRes("retry_png"));
+        retry.touchEnabled = true;
+        retry.anchorOffsetX = retry.width / 2;
+        retry.anchorOffsetY = retry.height / 2;
+        retry.x = this.stage.stageWidth / 2;
+        retry.y = this.stage.stageHeight / 2;
+        retry.once(egret.TouchEvent.TOUCH_TAP, this.onStart, this);
+        this.addChild(retry);
     };
     return Main;
 }(eui.UILayer));

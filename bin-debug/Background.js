@@ -58,6 +58,7 @@ var Background = (function (_super) {
     Background.prototype.initListener = function () {
         this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedFromStage, this);
     };
     Background.prototype.createRoad = function () {
         var road = this.road;
@@ -157,6 +158,11 @@ var Background = (function (_super) {
     };
     Background.prototype.onAddToStage = function (event) {
         this.createRoad();
+    };
+    Background.prototype.onRemovedFromStage = function (event) {
+        this.removeEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
+        this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedFromStage, this);
     };
     return Background;
 }(egret.DisplayObjectContainer));
