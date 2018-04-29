@@ -68,6 +68,7 @@ class Background extends egret.DisplayObjectContainer {
 	private initListener(): void {
 		this.addEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedFromStage, this);
 	}
 
 	private createRoad(): void {
@@ -187,5 +188,11 @@ class Background extends egret.DisplayObjectContainer {
 
     private onAddToStage(event:egret.Event) {
         this.createRoad();
+    }
+	
+	private onRemovedFromStage(event:egret.Event) {
+		this.removeEventListener(egret.Event.ENTER_FRAME, this.onEnterFrame, this);
+        this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedFromStage, this);
     }
 }

@@ -33,15 +33,23 @@ class GameContainer extends egret.DisplayObjectContainer {
     private acceleration = 0.5;
     // 碰撞物体记录
     private objectCollision: egret.DisplayObject;
+    // 定时器
+    private readyTimer: ReadyTimer;
 
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedFromStage, this);
     }
 
     private onAddToStage(event:egret.Event) {
         this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
         this.createGameScene();
+    }
+	
+	private onRemovedFromStage(event:egret.Event) {
+        this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedFromStage, this);
+        this.readyTimer.removeEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
     }
 
     // 创建场景，指游戏时的场景，路面，车辆，方块等
@@ -73,9 +81,9 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.score.x = this.stageW - this.score.width;
 
         // ReadyGo必须最后添加，因为移除时移除的最上层子容器
-        let readyTimer = new ReadyTimer();
-        readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
-        this.addChild(readyTimer);
+        this.readyTimer = new ReadyTimer();
+        this.readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
+        this.addChild(this.readyTimer);
 
         // let buttonStop = new eui.Button();
         // buttonStop.label = "pause";

@@ -31,6 +31,8 @@ class Main extends eui.UILayer {
 
     private runBtn:eui.Button;
 
+    private retryBtn:eui.Button;
+
     private gameContainer:GameContainer;
 
 
@@ -152,12 +154,8 @@ class Main extends eui.UILayer {
         change();
     }
 
-    /**
-     * 点击按钮
-     * Click the button
-     */
-    private onButtonClick(e: egret.TouchEvent) {
-        
+    private createPlayScene(): void {
+
         if (this.contains(this.gameContainer)) {
             this.removeChild(this.gameContainer);
         }
@@ -165,16 +163,24 @@ class Main extends eui.UILayer {
         this.gameContainer = new GameContainer();
         this.addChild(this.gameContainer);
 
-        this.runBtn = new eui.Button();
-        this.runBtn.label = "Retry";
-        this.addChild(this.runBtn);
-        this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTest, this);
-        this.runBtn.x = this.stage.stageWidth - this.runBtn.width;
-        this.runBtn.y = this.stage.stageHeight - this.runBtn.height;
-        console.log("Main Click", this.runBtn.x);
+        this.retryBtn = new eui.Button();
+        this.retryBtn.label = "Retry";
+        this.addChild(this.retryBtn);
+        this.retryBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTest, this);
+        this.retryBtn.x = this.stage.stageWidth - this.retryBtn.width;
+        this.retryBtn.y = this.stage.stageHeight - this.retryBtn.height;
+    }
+
+    /**
+     * 点击按钮
+     * Click the button
+     */
+    private onButtonClick(e: egret.TouchEvent) {
+        this.createPlayScene();
+        console.log("Main Click", this.retryBtn.x);
     }
 
     private onTest(e: egret.TouchEvent) {
-        this.removeChild(this.gameContainer);
+        this.createPlayScene();
     }
 }
