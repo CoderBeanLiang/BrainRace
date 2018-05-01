@@ -8,7 +8,11 @@ declare interface Platform {
 
     getUserInfo(): Promise<any>;
 
-    login(): Promise<any>
+    login(): Promise<any>;
+
+    setUserCloudStorage(param: any): Promise<any>;
+
+    getFriendCloudStorage(): Promise<any>
 
 }
 
@@ -16,8 +20,17 @@ class DebugPlatform implements Platform {
     async getUserInfo() {
         return { nickName: "username" }
     }
+
     async login() {
 
+    }
+
+    async setUserCloudStorage(param: any) {
+
+    }
+
+    async getFriendCloudStorage() {
+        return { nickName: "username" }
     }
 }
 

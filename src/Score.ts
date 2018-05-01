@@ -35,6 +35,10 @@ class Score extends egret.DisplayObjectContainer {
         this.setText();
     }
 
+    public getScore(): number {
+        return this.score;
+    }
+
     private setText() {
         this.scoreText.text = (this.score / 100).toFixed(2) + " 米";
     }
