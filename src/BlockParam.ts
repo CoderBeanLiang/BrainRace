@@ -20,6 +20,13 @@ class BlockParam {
     public static RES_ORANGE = "block_orange_png";
     public static RES_PURPLE = "block_purple_png";
 
+    public static DESC_RED = "红";
+    public static DESC_GREEN = "绿";
+    public static DESC_BLUE = "蓝";
+    public static DESC_YELLOW = "黄";
+    public static DESC_ORANGE = "橙";
+    public static DESC_PURPLE = "紫";
+
     public static RES_ZERO = "block_zero_png";
     public static RES_ONE = "block_one_png";
     public static RES_TWO = "block_two_png";
@@ -48,6 +55,15 @@ class BlockParam {
         BlockParam.RES_GREEN,
         BlockParam.RES_BLUE,
         BlockParam.RES_PURPLE
+    ];
+
+    public static colorDescArr:string[] = [
+        BlockParam.DESC_RED,                               
+        BlockParam.DESC_ORANGE,
+        BlockParam.DESC_YELLOW,
+        BlockParam.DESC_GREEN,
+        BlockParam.DESC_BLUE,
+        BlockParam.DESC_PURPLE
     ];
 
     public static numResArr:string[] = [
@@ -89,6 +105,13 @@ class BlockParam {
             return BlockParam.colorResArr[Math.ceil(index)];
         }
         return BlockParam.colorResArr[0];
+    }
+
+    public static getColorResDescByIndex(index:number):string {
+        if (index >=0 && index <= BlockParam.COLOR_NUM) {
+            return BlockParam.colorDescArr[Math.ceil(index)];
+        }
+        return BlockParam.colorDescArr[0];
     }
 
     public static getNumResNameArr(num:number):string[] {

@@ -14,6 +14,8 @@ class GameContainer extends egret.DisplayObjectContainer {
 
     private score:Score;
 
+    private subject:Subject;
+
     private gas:Gas;
     private gasInit:number = 5000;
     private gasMax:number = 50000;
@@ -76,6 +78,10 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.gas = new Gas(this.gasInit, this.gasMax);
         this.addChild(this.gas);
 
+        this.subject = new Subject();
+        this.roadBg.addEventListener(Subject.EVENT_UPDATE, this.subject.updateSubject, this.subject);
+        this.addChild(this.subject);
+
         this.score = new Score();
         this.addChild(this.score);
         this.score.x = this.stageW - this.score.width;
@@ -116,6 +122,18 @@ class GameContainer extends egret.DisplayObjectContainer {
 
     private gameStop() {
         this.removeEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
+
+        let value = this.score.getScore();
+
+        if(typeof(wx) != 'undefined') {
+            let openDataContext = wx.getOpenDataContext();
+            if(openDataContext != null) {
+                openDataContext.postMessage({
+                    isScore: true,
+                    score: value
+                });
+            }
+        }
         this.dispatchEventWith(Car.COMPLETE_STOP);
         // 显示分数或者分发结束事件给Main.ts
     }

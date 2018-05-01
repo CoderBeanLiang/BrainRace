@@ -7,8 +7,6 @@ class QuestionColor extends Question {
 		super();
 		
 		this.index = BlockParam.getRandomColorIndex();
-
-		console.log("new quest " + BlockParam.getColorResNameByIndex(this.index));
 	}
 
 	protected produceWrong(): Block {
@@ -22,7 +20,7 @@ class QuestionColor extends Question {
 	}
 
 	protected produceDescription(): String {
-		return BlockParam.getColorResNameByIndex(this.index);
+		return BlockParam.getColorResDescByIndex(this.index);
 	}
 
 	protected initCount(): boolean {

@@ -12,8 +12,6 @@ class Background extends egret.DisplayObjectContainer {
 
 	private question: Question;
 
-	private
-
 	public constructor() {
 
 		super();
@@ -59,6 +57,7 @@ class Background extends egret.DisplayObjectContainer {
 
 	public newQuestion(): void {
 		this.question = new QuestionColor();
+		this.dispatchEventWith(Subject.EVENT_UPDATE, false, this.question.title());
 	}
 
 	private initMember(): void {
@@ -131,7 +130,7 @@ class Background extends egret.DisplayObjectContainer {
 
 		let question = this.question;
 		if(question == null) {
-			this.question = new QuestionColor();
+			this.newQuestion();
 			question = this.question;
 		}
 		return question.produce();

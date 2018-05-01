@@ -31,7 +31,6 @@ class Main extends eui.UILayer {
 
     private gameContainer:GameContainer;
 
-
     protected createChildren(): void {
         super.createChildren();
 
@@ -146,6 +145,7 @@ class Main extends eui.UILayer {
         retry.x = this.stage.stageWidth / 2;
         retry.y = this.stage.stageHeight / 2;
         retry.once(egret.TouchEvent.TOUCH_TAP, this.onStart, this);
+
         this.addChild(retry);
     }
 
