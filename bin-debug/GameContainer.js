@@ -61,6 +61,10 @@ var GameContainer = (function (_super) {
         this.questionShow.anchorOffsetY = this.questionShow.height;
         this.questionShow.y = this.stage.stageHeight;
         this.addChild(this.questionShow);
+        this.subject = new Subject();
+        this.roadBg.addEventListener(Subject.EVENT_UPDATE, this.subject.updateSubject, this.subject);
+        this.subject.y = this.stage.stageHeight - 50;
+        this.addChild(this.subject);
         // ReadyGo必须最后添加，因为移除时移除的最上层子容器
         this.readyTimer = new ReadyTimer();
         this.readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
@@ -77,6 +81,16 @@ var GameContainer = (function (_super) {
     };
     GameContainer.prototype.gameStop = function () {
         this.removeEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
+        var value = this.score.getScore();
+        if (typeof (wx) != 'undefined') {
+            var openDataContext = wx.getOpenDataContext();
+            if (openDataContext != null) {
+                openDataContext.postMessage({
+                    isScore: true,
+                    score: value
+                });
+            }
+        }
         this.dispatchEventWith(Car.COMPLETE_STOP);
         // 显示分数或者分发结束事件给Main.ts
     };
@@ -93,7 +107,9 @@ var GameContainer = (function (_super) {
     };
     GameContainer.prototype.updateGame = function () {
         // 因碰撞会影响车速故先检测碰撞
-        this.updateCollision();
+        if (this.hasGas) {
+            this.updateCollision();
+        }
         // 获取小车当前速度
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
@@ -115,7 +131,7 @@ var GameContainer = (function (_super) {
                 break; // 后续障碍物都在汽车上方，不做判断
             }
             else if (UtilObject.Overlay(carRect, obstacle[i])) {
-                console.log("overlay");
+                // console.log("overlay");
                 // 没油了停止检测
                 if (!this.hasGas) {
                     break;
@@ -128,6 +144,7 @@ var GameContainer = (function (_super) {
             }
         }
         if (this.gas.getGasLast() <= 0) {
+            console.log("Car stop!");
             this.car.stop();
             this.hasGas = false;
         }

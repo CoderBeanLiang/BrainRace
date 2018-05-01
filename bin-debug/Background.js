@@ -52,6 +52,7 @@ var Background = (function (_super) {
     };
     Background.prototype.newQuestion = function () {
         this.question = new QuestionColor();
+        this.dispatchEventWith(Subject.EVENT_UPDATE, false, this.question.title());
     };
     Background.prototype.initMember = function () {
     };
@@ -112,7 +113,7 @@ var Background = (function (_super) {
     Background.prototype.produceObstacle = function () {
         var question = this.question;
         if (question == null) {
-            this.question = new QuestionColor();
+            this.newQuestion();
             question = this.question;
         }
         return question.produce();

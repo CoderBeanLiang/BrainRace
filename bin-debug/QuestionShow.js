@@ -25,6 +25,21 @@ var QuestionShow = (function (_super) {
         text.text = "正确的方块颜色是    ";
         this.addChild(text);
     };
+    QuestionShow.prototype.setColor = function (colorIndex) {
+        var scale = 0.25;
+        var resName = BlockParam.getColorResNameByIndex(colorIndex);
+        var colorBmp = new egret.Bitmap(RES.getRes(resName));
+        var rectW = colorBmp.width * scale;
+        var rectH = colorBmp.height * scale;
+        colorBmp.x = 500;
+        var rect = new egret.Shape();
+        rect.graphics.beginFill(0xffffff);
+        rect.graphics.drawRect(500, 0, rectW, rectH);
+        rect.graphics.endFill();
+        this.addChild(rect);
+        this.addChild(colorBmp);
+        rect.mask = colorBmp;
+    };
     return QuestionShow;
 }(egret.DisplayObjectContainer));
 __reflect(QuestionShow.prototype, "QuestionShow");

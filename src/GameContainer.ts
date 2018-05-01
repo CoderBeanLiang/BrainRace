@@ -79,10 +79,6 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.gas = new Gas(this.gasInit, this.gasMax);
         this.addChild(this.gas);
 
-        this.subject = new Subject();
-        this.roadBg.addEventListener(Subject.EVENT_UPDATE, this.subject.updateSubject, this.subject);
-        this.addChild(this.subject);
-
         this.score = new Score();
         this.addChild(this.score);
         this.score.x = this.stageW - this.score.width;
@@ -91,6 +87,11 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.questionShow.anchorOffsetY = this.questionShow.height;
         this.questionShow.y = this.stage.stageHeight;
         this.addChild(this.questionShow);
+
+        this.subject = new Subject();
+        this.roadBg.addEventListener(Subject.EVENT_UPDATE, this.subject.updateSubject, this.subject);
+        this.subject.y = this.stage.stageHeight - 50;
+        this.addChild(this.subject);
 
         // ReadyGo必须最后添加，因为移除时移除的最上层子容器
         this.readyTimer = new ReadyTimer();
@@ -142,7 +143,10 @@ class GameContainer extends egret.DisplayObjectContainer {
     private updateGame() {
 
         // 因碰撞会影响车速故先检测碰撞
-        this.updateCollision();
+        if (this.hasGas) {
+            this.updateCollision();
+        }
+        
         // 获取小车当前速度
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
@@ -166,7 +170,7 @@ class GameContainer extends egret.DisplayObjectContainer {
             if(UtilObject.BitmapBottom(obstacle[i]) < carTop) {
                 break;  // 后续障碍物都在汽车上方，不做判断
             } else if(UtilObject.Overlay(carRect, obstacle[i])) {
-                console.log("overlay");
+                // console.log("overlay");
                 // 没油了停止检测
                 if (!this.hasGas) {
                     break;
@@ -180,6 +184,7 @@ class GameContainer extends egret.DisplayObjectContainer {
         }
 
         if (this.gas.getGasLast() <= 0) {
+            console.log("Car stop!")
             this.car.stop();
             this.hasGas = false;
         }

@@ -27,6 +27,12 @@ var BlockParam = (function () {
         }
         return BlockParam.colorResArr[0];
     };
+    BlockParam.getColorResDescByIndex = function (index) {
+        if (index >= 0 && index <= BlockParam.COLOR_NUM) {
+            return BlockParam.colorDescArr[Math.ceil(index)];
+        }
+        return BlockParam.colorDescArr[0];
+    };
     BlockParam.getNumResNameArr = function (num) {
         // 10 是避免死循环，实际不会有这么大的数
         var nameArr = [];
@@ -62,6 +68,12 @@ var BlockParam = (function () {
     BlockParam.RES_YELLOW = "block_yellow_png";
     BlockParam.RES_ORANGE = "block_orange_png";
     BlockParam.RES_PURPLE = "block_purple_png";
+    BlockParam.DESC_RED = "红";
+    BlockParam.DESC_GREEN = "绿";
+    BlockParam.DESC_BLUE = "蓝";
+    BlockParam.DESC_YELLOW = "黄";
+    BlockParam.DESC_ORANGE = "橙";
+    BlockParam.DESC_PURPLE = "紫";
     BlockParam.RES_ZERO = "block_zero_png";
     BlockParam.RES_ONE = "block_one_png";
     BlockParam.RES_TWO = "block_two_png";
@@ -88,6 +100,14 @@ var BlockParam = (function () {
         BlockParam.RES_GREEN,
         BlockParam.RES_BLUE,
         BlockParam.RES_PURPLE
+    ];
+    BlockParam.colorDescArr = [
+        BlockParam.DESC_RED,
+        BlockParam.DESC_ORANGE,
+        BlockParam.DESC_YELLOW,
+        BlockParam.DESC_GREEN,
+        BlockParam.DESC_BLUE,
+        BlockParam.DESC_PURPLE
     ];
     BlockParam.numResArr = [
         BlockParam.RES_ZERO,

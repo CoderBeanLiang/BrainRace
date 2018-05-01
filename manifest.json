@@ -15,6 +15,7 @@
 		"bin-debug/BlockParam.js",
 		"bin-debug/Car.js",
 		"bin-debug/GameContainer.js",
+		"bin-debug/GameOver.js",
 		"bin-debug/Gas.js",
 		"bin-debug/Home.js",
 		"bin-debug/LoadingUI.js",
@@ -25,6 +26,7 @@
 		"bin-debug/QuestionShow.js",
 		"bin-debug/ReadyTimer.js",
 		"bin-debug/Score.js",
+		"bin-debug/Subject.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/Background.js"
 	]

@@ -194,20 +194,10 @@ var Main = (function (_super) {
         this.addChild(this.gameContainer);
     };
     Main.prototype.onEnd = function () {
-        var mask = new egret.Shape();
-        mask.graphics.beginFill(0x000000);
-        mask.graphics.drawRect(0, 0, this.stage.stageWidth, this.stage.stageHeight);
-        mask.graphics.endFill();
-        mask.alpha = 0.6;
-        this.addChild(mask);
-        var retry = new egret.Bitmap(RES.getRes("retry_png"));
-        retry.touchEnabled = true;
-        retry.anchorOffsetX = retry.width / 2;
-        retry.anchorOffsetY = retry.height / 2;
-        retry.x = this.stage.stageWidth / 2;
-        retry.y = this.stage.stageHeight / 2;
-        retry.once(egret.TouchEvent.TOUCH_TAP, this.onStart, this);
-        this.addChild(retry);
+        var gameOver = new GameOver();
+        gameOver.once(GameOver.GAME_OVER_HOME, this.onInit, this);
+        gameOver.once(GameOver.GAME_OVER_RETRY, this.onStart, this);
+        this.addChild(gameOver);
     };
     return Main;
 }(eui.UILayer));

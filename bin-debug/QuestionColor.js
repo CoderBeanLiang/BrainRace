@@ -13,7 +13,6 @@ var QuestionColor = (function (_super) {
     function QuestionColor() {
         var _this = _super.call(this) || this;
         _this.index = BlockParam.getRandomColorIndex();
-        console.log("new quest " + BlockParam.getColorResNameByIndex(_this.index));
         return _this;
     }
     QuestionColor.prototype.produceWrong = function () {
@@ -25,7 +24,7 @@ var QuestionColor = (function (_super) {
         return Block.produce(BlockParam.TYPE_COLOR, color);
     };
     QuestionColor.prototype.produceDescription = function () {
-        return BlockParam.getColorResNameByIndex(this.index);
+        return BlockParam.getColorResDescByIndex(this.index);
     };
     QuestionColor.prototype.initCount = function () {
         this.wrong = 2;

@@ -53,6 +53,20 @@ var DebugPlatform = (function () {
             });
         });
     };
+    DebugPlatform.prototype.setUserCloudStorage = function (param) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    DebugPlatform.prototype.getFriendCloudStorage = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, { nickName: "username" }];
+            });
+        });
+    };
     return DebugPlatform;
 }());
 __reflect(DebugPlatform.prototype, "DebugPlatform", ["Platform"]);

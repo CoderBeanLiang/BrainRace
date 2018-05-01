@@ -37,6 +37,9 @@ var Score = (function (_super) {
         this.score += score;
         this.setText();
     };
+    Score.prototype.getScore = function () {
+        return this.score;
+    };
     Score.prototype.setText = function () {
         this.scoreText.text = (this.score / 100).toFixed(2) + " 米";
     };

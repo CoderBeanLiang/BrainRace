@@ -4,7 +4,7 @@ class Subject extends egret.DisplayObjectContainer {
 
     private subjectText:egret.TextField;
 
-    private widthText: number = 200;
+    private widthText: number = 100;
 
     private heightText: number = 50;
     

@@ -88,7 +88,7 @@ class Home extends egret.DisplayObjectContainer {
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
 
-        this.back = new egret.Bitmap(RES.getRes("sort_png"));
+        this.back = new egret.Bitmap(RES.getRes("back_png"));
         this.back.touchEnabled = true;
         this.back.anchorOffsetX = this.back.width / 2;
         this.back.anchorOffsetY = this.back.height / 2;
