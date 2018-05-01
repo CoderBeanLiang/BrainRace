@@ -13,9 +13,10 @@ class GameContainer extends egret.DisplayObjectContainer {
     //private roadRightEdge:number;
 
     private score:Score;
+    private questionShow:QuestionShow;
 
     private gas:Gas;
-    private gasInit:number = 5000;
+    private gasInit:number = 10000;
     private gasMax:number = 50000;
     private gasAdd:number = 100;
     private hasGas:boolean;
@@ -80,27 +81,16 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.addChild(this.score);
         this.score.x = this.stageW - this.score.width;
 
+        this.questionShow = new QuestionShow();
+        this.questionShow.anchorOffsetY = this.questionShow.height;
+        this.questionShow.y = this.stage.stageHeight;
+        this.addChild(this.questionShow);
+
         // ReadyGo必须最后添加，因为移除时移除的最上层子容器
         this.readyTimer = new ReadyTimer();
         this.readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
         this.addChild(this.readyTimer);
-
-        // let buttonStop = new eui.Button();
-        // buttonStop.label = "pause";
-        // buttonStop.x = this.stageW - 100;
-        // buttonStop.y = 10;
-        // this.addChild(buttonStop);
-        // buttonStop.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
     }
-
-    // private onButtonClick(evt: egret.TouchEvent) {
-    //     var button = <eui.Button>evt.target;
-    //     if (button.label == "start") {
-    //         this.car.start();
-    //     } else if (button.label == "stop") {
-    //         this.car.stop();
-    //     }
-    // }
 
     private gameStart() {
         this.removeChildAt(this.numChildren - 1);

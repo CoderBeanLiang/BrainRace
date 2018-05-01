@@ -12,7 +12,7 @@ var GameContainer = (function (_super) {
     __extends(GameContainer, _super);
     function GameContainer() {
         var _this = _super.call(this) || this;
-        _this.gasInit = 5000;
+        _this.gasInit = 10000;
         _this.gasMax = 50000;
         _this.gasAdd = 100;
         // 当前速度
@@ -57,25 +57,15 @@ var GameContainer = (function (_super) {
         this.score = new Score();
         this.addChild(this.score);
         this.score.x = this.stageW - this.score.width;
+        this.questionShow = new QuestionShow();
+        this.questionShow.anchorOffsetY = this.questionShow.height;
+        this.questionShow.y = this.stage.stageHeight;
+        this.addChild(this.questionShow);
         // ReadyGo必须最后添加，因为移除时移除的最上层子容器
         this.readyTimer = new ReadyTimer();
         this.readyTimer.addEventListener(ReadyTimer.COMPLETE, this.gameStart, this);
         this.addChild(this.readyTimer);
-        // let buttonStop = new eui.Button();
-        // buttonStop.label = "pause";
-        // buttonStop.x = this.stageW - 100;
-        // buttonStop.y = 10;
-        // this.addChild(buttonStop);
-        // buttonStop.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
     };
-    // private onButtonClick(evt: egret.TouchEvent) {
-    //     var button = <eui.Button>evt.target;
-    //     if (button.label == "start") {
-    //         this.car.start();
-    //     } else if (button.label == "stop") {
-    //         this.car.stop();
-    //     }
-    // }
     GameContainer.prototype.gameStart = function () {
         this.removeChildAt(this.numChildren - 1);
         this.addEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);

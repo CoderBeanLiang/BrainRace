@@ -16,21 +16,23 @@ var Gas = (function (_super) {
         _this.gasMax = 0;
         _this.gas = gasInit;
         _this.gasMax = gasMax;
-        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
+        _this.once(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
     Gas.prototype.onAddToStage = function () {
-        this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
-        var bg = new egret.Shape();
-        bg.graphics.beginFill(0x000000);
-        bg.graphics.drawRect(0, 0, 200, 50);
-        bg.graphics.endFill();
+        var bg = new egret.Bitmap(RES.getRes("gas_bg_png"));
         this.addChild(bg);
-        this.gasText = new egret.TextField();
-        this.gasText.width = 200;
-        this.gasText.height = 50;
-        this.gasText.text = "GAS：" + this.gas;
-        this.addChild(this.gasText);
+        this.gasRect = new egret.Shape();
+        this.gasRect.graphics.beginFill(0xff0000);
+        this.gasRect.graphics.drawRect(15, 20, 385, 50);
+        this.gasRect.graphics.endFill();
+        this.addChild(this.gasRect);
+        var mask = new egret.Bitmap(RES.getRes("gas_mask_png"));
+        this.addChild(mask);
+        this.gasRect.mask = mask;
+        this.gasRect.scaleX = this.gas / this.gasMax;
+        var line = new egret.Bitmap(RES.getRes("gas_line_png"));
+        this.addChild(line);
     };
     Gas.prototype.addToGas = function (add) {
         this.gas += add;
@@ -50,7 +52,10 @@ var Gas = (function (_super) {
         if (this.gas < 0) {
             this.gas = 0;
         }
-        this.gasText.text = "GAS：" + this.gas;
+        this.updateGasAnim();
+    };
+    Gas.prototype.updateGasAnim = function () {
+        this.gasRect.scaleX = this.gas / this.gasMax;
     };
     return Gas;
 }(egret.DisplayObjectContainer));
