@@ -19,8 +19,8 @@ class GameContainer extends egret.DisplayObjectContainer {
 
     private gas:Gas;
     private gasInit:number = 10000;
-    private gasMax:number = 50000;
-    private gasAdd:number = 100;
+    private gasMax:number = 30000;
+    private gasAdd:number = 200;
     private hasGas:boolean;
 
     // 玩家赛车

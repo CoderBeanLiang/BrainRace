@@ -56,6 +56,9 @@ var Block = (function (_super) {
     //     this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     //     this.createBlock();
     // }
+    Block.prototype.getType = function () {
+        return this.typeName;
+    };
     Block.prototype.getAnswer = function () {
         return this.answer;
     };
@@ -99,6 +102,8 @@ var Block = (function (_super) {
         rect.mask = bmp;
     };
     Block.prototype.createNumberBlock = function (num) {
+        this.blockW = 0;
+        this.blockH = 0;
         this.answer = num;
         var scale = 1;
         var temp = num;
@@ -112,6 +117,9 @@ var Block = (function (_super) {
                 temp = Math.floor(temp / 10);
             }
             else {
+                if (i == 0) {
+                    bmpArr.push(new egret.Bitmap(RES.getRes(BlockParam.numResArr[0])));
+                }
                 break;
             }
         }

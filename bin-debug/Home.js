@@ -21,10 +21,10 @@ var Home = (function (_super) {
         var stageH = this.stage.stageHeight;
         var bg = new Background();
         this.addChild(bg);
-        var title = new egret.Bitmap(RES.getRes("title_png"));
-        title.x = (stageW - title.width) / 2;
-        title.y = stageH * 0.2;
-        this.addChild(title);
+        this.title = new egret.Bitmap(RES.getRes("title_png"));
+        this.title.x = (stageW - this.title.width) / 2;
+        this.title.y = stageH * 0.2;
+        this.addChild(this.title);
         // 因为有动画，所以直接将锚点设为中心点
         this.start = new egret.Bitmap(RES.getRes("start_png"));
         this.start.touchEnabled = true;
@@ -94,6 +94,7 @@ var Home = (function (_super) {
         this.start.removeEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onStartCancel, this);
         this.removeChild(this.start);
         this.removeChild(this.sort);
+        this.removeChild(this.title);
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
         this.back = new egret.Bitmap(RES.getRes("back_png"));

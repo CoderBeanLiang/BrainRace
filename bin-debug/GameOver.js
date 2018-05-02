@@ -32,8 +32,8 @@ var GameOver = (function (_super) {
         this.addChild(retry);
         var home = new egret.Bitmap(RES.getRes("icon_home_png"));
         home.touchEnabled = true;
-        home.x = 10;
-        home.y = 10;
+        home.x = 20;
+        home.y = 20;
         home.once(egret.TouchEvent.TOUCH_TAP, this.onHome, this);
         this.addChild(home);
     };

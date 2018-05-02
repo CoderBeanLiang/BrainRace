@@ -51,7 +51,13 @@ var Background = (function (_super) {
         return this.question;
     };
     Background.prototype.newQuestion = function () {
-        this.question = new QuestionColor();
+        var value = UtilMath.RandomInt(0, 1);
+        if (value == 0) {
+            this.question = new QuestionNumber();
+        }
+        else {
+            this.question = new QuestionColor();
+        }
         this.dispatchEventWith(Subject.EVENT_UPDATE, false, this.question.title());
     };
     Background.prototype.initMember = function () {

@@ -10,7 +10,7 @@
 	],
 	"game": [
 		"bin-debug/Question.js",
-		"bin-debug/Main.js",
+		"bin-debug/Platform.js",
 		"bin-debug/Block.js",
 		"bin-debug/BlockParam.js",
 		"bin-debug/Car.js",
@@ -19,15 +19,17 @@
 		"bin-debug/Gas.js",
 		"bin-debug/Home.js",
 		"bin-debug/LoadingUI.js",
+		"bin-debug/Main.js",
 		"bin-debug/Background.js",
-		"bin-debug/Platform.js",
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/QuestionColor.js",
+		"bin-debug/QuestionNumber.js",
 		"bin-debug/QuestionShow.js",
 		"bin-debug/ReadyTimer.js",
 		"bin-debug/Score.js",
 		"bin-debug/Subject.js",
 		"bin-debug/ThemeAdapter.js",
+		"bin-debug/UtilMath.js",
 		"bin-debug/UtilObject.js"
 	]
 }

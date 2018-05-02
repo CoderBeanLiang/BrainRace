@@ -13,8 +13,8 @@ var GameContainer = (function (_super) {
     function GameContainer() {
         var _this = _super.call(this) || this;
         _this.gasInit = 10000;
-        _this.gasMax = 50000;
-        _this.gasAdd = 100;
+        _this.gasMax = 30000;
+        _this.gasAdd = 200;
         // 当前速度
         _this.currentSpeed = 0;
         // 稳定速度

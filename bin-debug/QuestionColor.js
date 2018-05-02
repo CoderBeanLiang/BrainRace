@@ -32,10 +32,10 @@ var QuestionColor = (function (_super) {
         return true;
     };
     QuestionColor.prototype.judgeBlock = function (block) {
-        return block.getAnswer() == BlockParam.getColorByIndex(this.index);
+        return block.getType() == BlockParam.TYPE_COLOR && block.getAnswer() == BlockParam.getColorByIndex(this.index);
     };
     QuestionColor.prototype.reclaimBlock = function (block) {
-        Block.reclaim(block, BlockParam.TYPE_COLOR);
+        Block.reclaim(block, block.getType());
     };
     QuestionColor.prototype.randomColor = function () {
         var index = BlockParam.getRandomColorIndex();

@@ -117,6 +117,9 @@ class Block extends egret.DisplayObjectContainer {
     }
 
     private createNumberBlock(num:number) {
+        this.blockW = 0;
+        this.blockH = 0;
+
         this.answer = num;
 
         let scale = 1;
@@ -132,6 +135,9 @@ class Block extends egret.DisplayObjectContainer {
                 bmpArr.push(new egret.Bitmap(RES.getRes(resName)));
                 temp = Math.floor(temp / 10);
             } else {
+                if (i == 0) {
+                    bmpArr.push(new egret.Bitmap(RES.getRes(BlockParam.numResArr[0])))
+                }
                 break;
             }
         }

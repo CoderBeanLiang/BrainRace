@@ -6,6 +6,7 @@ class Home extends egret.DisplayObjectContainer {
     private back:egret.Bitmap;
     private sort:egret.Bitmap;
     private rank: egret.Bitmap;
+    private title:egret.Bitmap;
 
     public constructor() {
         super();
@@ -21,10 +22,10 @@ class Home extends egret.DisplayObjectContainer {
         let bg = new Background();
         this.addChild(bg);
 
-        let title = new egret.Bitmap(RES.getRes("title_png"));
-        title.x = (stageW - title.width) / 2;
-        title.y = stageH * 0.2;
-        this.addChild(title);
+        this.title = new egret.Bitmap(RES.getRes("title_png"));
+        this.title.x = (stageW - this.title.width) / 2;
+        this.title.y = stageH * 0.2;
+        this.addChild(this.title);
 
         // 因为有动画，所以直接将锚点设为中心点
         this.start = new egret.Bitmap(RES.getRes("start_png"));
@@ -108,6 +109,7 @@ class Home extends egret.DisplayObjectContainer {
         this.start.removeEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onStartCancel, this);
         this.removeChild(this.start);
         this.removeChild(this.sort);
+        this.removeChild(this.title);
 
         let stageW = this.stage.stageWidth;
         let stageH = this.stage.stageHeight;
