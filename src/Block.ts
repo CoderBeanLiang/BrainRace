@@ -61,6 +61,10 @@ class Block extends egret.DisplayObjectContainer {
     //     this.createBlock();
     // }
 
+    public getType():string {
+        return this.typeName;
+    }
+
     public getAnswer():number {
         return this.answer;
     }
