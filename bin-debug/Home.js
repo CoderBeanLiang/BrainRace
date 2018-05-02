@@ -21,23 +21,31 @@ var Home = (function (_super) {
         var stageH = this.stage.stageHeight;
         var bg = new Background();
         this.addChild(bg);
+        var title = new egret.Bitmap(RES.getRes("title_png"));
+        title.x = (stageW - title.width) / 2;
+        title.y = stageH * 0.2;
+        this.addChild(title);
+        // 因为有动画，所以直接将锚点设为中心点
         this.start = new egret.Bitmap(RES.getRes("start_png"));
         this.start.touchEnabled = true;
         this.start.anchorOffsetX = this.start.width / 2;
         this.start.anchorOffsetY = this.start.height / 2;
         this.start.x = stageW / 2;
-        this.start.y = stageH / 2 - this.start.height;
+        this.start.y = stageH * 0.7 - this.start.height * 0.6;
         this.start.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onStartAnim, this);
         this.start.addEventListener(egret.TouchEvent.TOUCH_END, this.onStartClick, this);
+        this.start.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onStartCancel, this);
         this.addChild(this.start);
+        // 因为有动画，所以直接将锚点设为中心点
         this.sort = new egret.Bitmap(RES.getRes("sort_png"));
         this.sort.touchEnabled = true;
         this.sort.anchorOffsetX = this.sort.width / 2;
         this.sort.anchorOffsetY = this.sort.height / 2;
         this.sort.x = stageW / 2;
-        this.sort.y = stageH / 2 + this.sort.height;
+        this.sort.y = stageH * 0.7 + this.sort.height * 0.6;
         this.sort.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onSortAnim, this);
         this.sort.addEventListener(egret.TouchEvent.TOUCH_END, this.onSortClick, this);
+        this.sort.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onSortCancel, this);
         this.addChild(this.sort);
     };
     Home.prototype.onRemovedFromStage = function () {
@@ -46,6 +54,9 @@ var Home = (function (_super) {
     Home.prototype.onStartAnim = function () {
         egret.Tween.get(this.start).to({ scaleX: 0.8, scaleY: 0.8 }, 200);
     };
+    Home.prototype.onStartCancel = function () {
+        egret.Tween.get(this.start).to({ scaleX: 1.0, scaleY: 1.0 }, 200);
+    };
     Home.prototype.onStartClick = function () {
         console.log("StartClicked");
         this.dispatchEventWith(Home.START_CLICK);
@@ -53,9 +64,13 @@ var Home = (function (_super) {
     Home.prototype.onBackAnim = function () {
         egret.Tween.get(this.back).to({ scaleX: 0.8, scaleY: 0.8 }, 200);
     };
+    Home.prototype.onBackCancel = function () {
+        egret.Tween.get(this.back).to({ scaleX: 1.0, scaleY: 1.0 }, 200);
+    };
     Home.prototype.onBackClick = function () {
         this.back.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBackAnim, this);
         this.back.removeEventListener(egret.TouchEvent.TOUCH_END, this.onBackClick, this);
+        this.back.removeEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onBackCancel, this);
         if (this.contains(this.back)) {
             this.removeChild(this.back);
         }
@@ -67,11 +82,16 @@ var Home = (function (_super) {
     Home.prototype.onSortAnim = function () {
         egret.Tween.get(this.sort).to({ scaleX: 0.8, scaleY: 0.8 }, 200);
     };
+    Home.prototype.onSortCancel = function () {
+        egret.Tween.get(this.sort).to({ scaleX: 1.0, scaleY: 1.0 }, 200);
+    };
     Home.prototype.onSortClick = function () {
         this.sort.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onSortAnim, this);
         this.sort.removeEventListener(egret.TouchEvent.TOUCH_END, this.onSortClick, this);
+        this.sort.removeEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onSortCancel, this);
         this.start.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onStartAnim, this);
         this.start.removeEventListener(egret.TouchEvent.TOUCH_END, this.onStartClick, this);
+        this.start.removeEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onStartCancel, this);
         this.removeChild(this.start);
         this.removeChild(this.sort);
         var stageW = this.stage.stageWidth;
@@ -84,6 +104,7 @@ var Home = (function (_super) {
         this.back.y = stageH - this.back.height;
         this.back.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onBackAnim, this);
         this.back.addEventListener(egret.TouchEvent.TOUCH_END, this.onBackClick, this);
+        this.back.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.onBackCancel, this);
         this.addChild(this.back);
         if (typeof (wx) != 'undefined') {
             var openDataContext = wx.getOpenDataContext();
