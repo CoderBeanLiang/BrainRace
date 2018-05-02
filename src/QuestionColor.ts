@@ -30,11 +30,11 @@ class QuestionColor extends Question {
 	}
 
 	protected judgeBlock(block: Block): boolean {
-		return block.getAnswer() == BlockParam.getColorByIndex(this.index);
+		return block.getType() == BlockParam.TYPE_COLOR && block.getAnswer() == BlockParam.getColorByIndex(this.index);
 	}
 
 	protected reclaimBlock(block: Block): void {
-		Block.reclaim(block, BlockParam.TYPE_COLOR);
+		Block.reclaim(block, block.getType());
     }
 
 	private randomColor(): number {
