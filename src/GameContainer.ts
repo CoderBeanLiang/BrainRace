@@ -12,12 +12,11 @@ class GameContainer extends egret.DisplayObjectContainer {
     //private roadLeftEdge:number;
     //private roadRightEdge:number;
 
-    private score:Score;
-    private questionShow:QuestionShow;
-
     private subject:Subject;
 
-    private gas:Gas;
+    // 顶部油箱分数问题区域
+    private topUI:GameTopUI;
+
     private gasInit:number = 10000;
     private gasMax:number = 30000;
     private gasAdd:number = 200;
@@ -76,21 +75,12 @@ class GameContainer extends egret.DisplayObjectContainer {
         let roadRightEdge = Math.floor(this.roadBg.getRightEdge());
         this.car.setRoadEdge(roadLeftEdge, roadRightEdge);
 
-        this.gas = new Gas(this.gasInit, this.gasMax);
-        this.addChild(this.gas);
-
-        this.score = new Score();
-        this.addChild(this.score);
-        this.score.x = this.stageW - this.score.width;
-
-        this.questionShow = new QuestionShow();
-        this.questionShow.anchorOffsetY = this.questionShow.height;
-        this.questionShow.y = this.stage.stageHeight;
-        this.addChild(this.questionShow);
+        this.topUI = new GameTopUI(this.gasInit, this.gasMax);
+        this.addChild(this.topUI);
 
         this.subject = new Subject();
         this.roadBg.addEventListener(Subject.EVENT_UPDATE, this.subject.updateSubject, this.subject);
-        this.subject.y = this.stage.stageHeight - 50;
+        this.subject.y = 72;
         this.addChild(this.subject);
 
         // ReadyGo必须最后添加，因为移除时移除的最上层子容器
@@ -114,7 +104,7 @@ class GameContainer extends egret.DisplayObjectContainer {
     private gameStop() {
         this.removeEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
 
-        let value = this.score.getScore();
+        let value = this.topUI.getScore();
 
         if(typeof(wx) != 'undefined') {
             let openDataContext = wx.getOpenDataContext();
@@ -125,7 +115,7 @@ class GameContainer extends egret.DisplayObjectContainer {
                 });
             }
         }
-        this.dispatchEventWith(Car.COMPLETE_STOP);
+        this.dispatchEventWith(Car.COMPLETE_STOP, false, value);
         // 显示分数或者分发结束事件给Main.ts
     }
 
@@ -183,7 +173,7 @@ class GameContainer extends egret.DisplayObjectContainer {
             }
         }
 
-        if (this.gas.getGasLast() <= 0) {
+        if (this.topUI.getGasLast() <= 0) {
             console.log("Car stop!")
             this.car.stop();
             this.hasGas = false;
@@ -193,8 +183,8 @@ class GameContainer extends egret.DisplayObjectContainer {
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);
-        this.gas.updateGas(this.currentSpeed);
-        this.score.updateScore(this.currentSpeed);
+        this.topUI.updateGas(this.currentSpeed);
+        this.topUI.updateScore(this.currentSpeed);
     }
 
 	public onOverlapEnter(obj: egret.DisplayObject, obs: egret.DisplayObject): void {
@@ -206,13 +196,13 @@ class GameContainer extends egret.DisplayObjectContainer {
 				// 答案正确
 				if(obj instanceof Car) {
                     this.car.addToCurrentSpeed(this.addedSpeed);
-                    this.gas.addToGas(this.gasAdd);
+                    this.topUI.addToGas(this.gasAdd);
 				}
 			} else {
 				// 答案错误
                 if(obj instanceof Car) {
                     this.car.addToCurrentSpeed(-this.addedSpeed);
-                    this.gas.addToGas(-this.gasAdd);
+                    this.topUI.addToGas(-this.gasAdd);
 				}
 			}
 		}

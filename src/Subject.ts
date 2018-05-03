@@ -20,13 +20,13 @@ class Subject extends egret.DisplayObjectContainer {
     }
 
     private init() {
-        let bg = new egret.Shape();
+        // let bg = new egret.Shape();
         let pivotX = this.stage.width / 2 - this.widthText / 2;
-        let pivotY = this.stage.height - this.heightText;
-        bg.graphics.beginFill(0x000000);
-        bg.graphics.drawRect(0, 0, this.widthText, this.heightText);
-        bg.graphics.endFill();
-        this.addChild(bg);
+        // let pivotY = this.stage.height - this.heightText;
+        // bg.graphics.beginFill(0x000000);
+        // bg.graphics.drawRect(0, 0, this.widthText, this.heightText);
+        // bg.graphics.endFill();
+        // this.addChild(bg);
 
         this.subjectText = new egret.TextField();
         this.subjectText.width = this.widthText;
@@ -34,8 +34,8 @@ class Subject extends egret.DisplayObjectContainer {
         this.subjectText.textAlign = egret.HorizontalAlign.CENTER;
         this.addChild(this.subjectText);
 
-        bg.x = pivotX;
-        bg.y = 0;
+        // bg.x = pivotX;
+        // bg.y = 0;
         this.subjectText.x = pivotX;
         this.subjectText.y = 0;
     }

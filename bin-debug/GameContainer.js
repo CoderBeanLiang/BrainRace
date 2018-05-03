@@ -52,18 +52,11 @@ var GameContainer = (function (_super) {
         var roadLeftEdge = Math.ceil(this.roadBg.getLeftEdge());
         var roadRightEdge = Math.floor(this.roadBg.getRightEdge());
         this.car.setRoadEdge(roadLeftEdge, roadRightEdge);
-        this.gas = new Gas(this.gasInit, this.gasMax);
-        this.addChild(this.gas);
-        this.score = new Score();
-        this.addChild(this.score);
-        this.score.x = this.stageW - this.score.width;
-        this.questionShow = new QuestionShow();
-        this.questionShow.anchorOffsetY = this.questionShow.height;
-        this.questionShow.y = this.stage.stageHeight;
-        this.addChild(this.questionShow);
+        this.topUI = new GameTopUI(this.gasInit, this.gasMax);
+        this.addChild(this.topUI);
         this.subject = new Subject();
         this.roadBg.addEventListener(Subject.EVENT_UPDATE, this.subject.updateSubject, this.subject);
-        this.subject.y = this.stage.stageHeight - 50;
+        this.subject.y = 72;
         this.addChild(this.subject);
         // ReadyGo必须最后添加，因为移除时移除的最上层子容器
         this.readyTimer = new ReadyTimer();
@@ -81,7 +74,7 @@ var GameContainer = (function (_super) {
     };
     GameContainer.prototype.gameStop = function () {
         this.removeEventListener(egret.Event.ENTER_FRAME, this.updateGame, this);
-        var value = this.score.getScore();
+        var value = this.topUI.getScore();
         if (typeof (wx) != 'undefined') {
             var openDataContext = wx.getOpenDataContext();
             if (openDataContext != null) {
@@ -91,7 +84,7 @@ var GameContainer = (function (_super) {
                 });
             }
         }
-        this.dispatchEventWith(Car.COMPLETE_STOP);
+        this.dispatchEventWith(Car.COMPLETE_STOP, false, value);
         // 显示分数或者分发结束事件给Main.ts
     };
     GameContainer.prototype.touchHandler = function (evt) {
@@ -143,7 +136,7 @@ var GameContainer = (function (_super) {
                 // 理论上同一时刻应仅有一个方块和车产生碰撞，此处应有break
             }
         }
-        if (this.gas.getGasLast() <= 0) {
+        if (this.topUI.getGasLast() <= 0) {
             console.log("Car stop!");
             this.car.stop();
             this.hasGas = false;
@@ -152,8 +145,8 @@ var GameContainer = (function (_super) {
         this.currentSpeed = this.car.getCurrentSpeed();
         // 更新其他部件的位置
         this.roadBg.setSpeed(this.currentSpeed);
-        this.gas.updateGas(this.currentSpeed);
-        this.score.updateScore(this.currentSpeed);
+        this.topUI.updateGas(this.currentSpeed);
+        this.topUI.updateScore(this.currentSpeed);
     };
     GameContainer.prototype.onOverlapEnter = function (obj, obs) {
         if (obs instanceof Block) {
@@ -162,14 +155,14 @@ var GameContainer = (function (_super) {
                 // 答案正确
                 if (obj instanceof Car) {
                     this.car.addToCurrentSpeed(this.addedSpeed);
-                    this.gas.addToGas(this.gasAdd);
+                    this.topUI.addToGas(this.gasAdd);
                 }
             }
             else {
                 // 答案错误
                 if (obj instanceof Car) {
                     this.car.addToCurrentSpeed(-this.addedSpeed);
-                    this.gas.addToGas(-this.gasAdd);
+                    this.topUI.addToGas(-this.gasAdd);
                 }
             }
         }

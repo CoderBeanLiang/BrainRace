@@ -130,8 +130,8 @@ class Main extends eui.UILayer {
         this.addChild(this.gameContainer);
     }
 
-    private onEnd() {
-        let gameOver = new GameOver();
+    private onEnd(evt:egret.Event) {
+        let gameOver = new GameOver(evt.data);
         gameOver.once(GameOver.GAME_OVER_HOME, this.onInit, this);
         gameOver.once(GameOver.GAME_OVER_RETRY, this.onStart, this);
         this.addChild(gameOver);

@@ -193,8 +193,8 @@ var Main = (function (_super) {
         this.gameContainer.once(Car.COMPLETE_STOP, this.onEnd, this);
         this.addChild(this.gameContainer);
     };
-    Main.prototype.onEnd = function () {
-        var gameOver = new GameOver();
+    Main.prototype.onEnd = function (evt) {
+        var gameOver = new GameOver(evt.data);
         gameOver.once(GameOver.GAME_OVER_HOME, this.onInit, this);
         gameOver.once(GameOver.GAME_OVER_RETRY, this.onStart, this);
         this.addChild(gameOver);

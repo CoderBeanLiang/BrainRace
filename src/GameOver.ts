@@ -3,8 +3,11 @@ class GameOver extends egret.DisplayObjectContainer {
     public static GAME_OVER_RETRY = "GameOverRetry";
     public static GAME_OVER_HOME = "GameOverHome";
 
-    public constructor() {
+    private info:any;
+
+    public constructor(info:any) {
         super();
+        this.info = info;
         this.once(egret.Event.ADDED_TO_STAGE, this.init, this);
     }
 
@@ -13,15 +16,24 @@ class GameOver extends egret.DisplayObjectContainer {
         mask.graphics.beginFill(0x000000);
         mask.graphics.drawRect(0, 0, this.stage.stageWidth, this.stage.stageHeight);
         mask.graphics.endFill();
-        mask.alpha = 0.6;
+        mask.alpha = 0.75;
         this.addChild(mask);
+
+        let score = new Score();
+        score.showScore(this.info);
+        score.anchorOffsetX = - score.width / 2;// Score数字是从后往前添加，所以默认锚点0在右侧
+        score.x = this.stage.stageWidth / 2;
+        score.y = this.stage.stageHeight / 3;
+        score.scaleX = 2;
+        score.scaleY = 2;
+        this.addChild(score);
 
         let retry = new egret.Bitmap(RES.getRes("retry_png"));
         retry.touchEnabled = true;
         retry.anchorOffsetX = retry.width / 2;
         retry.anchorOffsetY = retry.height / 2;
         retry.x = this.stage.stageWidth / 2;
-        retry.y = this.stage.stageHeight / 2;
+        retry.y = this.stage.stageHeight * 0.65;
         retry.once(egret.TouchEvent.TOUCH_TAP, this.onRetry, this);
         this.addChild(retry);
 
