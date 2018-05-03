@@ -23,6 +23,10 @@ class UtilObject {
 		return bitmap.height * bitmap.scaleY;
 	}
 
+	public static BitmapWidth(bitmap: egret.DisplayObject): number {
+		return bitmap.width * bitmap.scaleX;
+	}
+
 	public static Overlay(obj: egret.Rectangle, obs: egret.DisplayObject) {
 		let rect = new egret.Rectangle();
 		rect.top = UtilObject.BitmapTop(obs);

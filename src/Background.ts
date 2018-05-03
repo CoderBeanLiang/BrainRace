@@ -7,8 +7,14 @@ class Background extends egret.DisplayObjectContainer {
 	private rightEdge: number = 520;
 
 	private obstacle: Array<egret.DisplayObject> = new Array<egret.DisplayObject>();
-	private offset: number = 200;
-	private interval: number = 200;
+	private obstacleOffset: number = 200;
+	private obstacleInterval: number = 200;
+
+
+	private scenery: Array<egret.Bitmap> = new Array<egret.Bitmap>();
+	private sceneryOffset: number = 400;
+	private sceneryInterval: number = 200;
+	private sceneryGuardrailWidth: number = 30;
 
 	private question: Question;
 
@@ -106,6 +112,33 @@ class Background extends egret.DisplayObjectContainer {
 		this.addChildAt(track, 0);
 	}
 
+	private shiftScenery(): void {
+		let scenery = this.scenery;
+		let object = scenery.shift();
+		this.removeChild(object);
+	}
+
+	private appendScenery(name: string): void {
+		let scenery = this.scenery;
+		let object = new egret.Bitmap();
+		object.texture = RES.getRes(name);
+		if(scenery.length == 0) {
+			object.y = 0 - UtilObject.BitmapHeight(object);
+		}
+		else {
+			let offset = this.sceneryInterval + Math.random() * this.sceneryOffset;
+			object.y = UtilObject.BitmapTop(scenery[scenery.length - 1]) - UtilObject.BitmapHeight(object) - offset;
+		}
+		let witdh = UtilObject.BitmapWidth(object);
+		if(UtilMath.RandomInt(0, 1) == 0) {
+			object.x = UtilMath.Random(0, this.leftEdge - witdh - this.sceneryGuardrailWidth);
+		} else {
+			object.x = UtilMath.Random(this.rightEdge + this.sceneryGuardrailWidth, this.stage.width - witdh);
+		}
+		scenery.push(object);
+		this.addChildAt(object, 100);
+	}
+
 	private appendObstacle(name: string): void {
 		let obstacle = this.obstacle;
 		let block = this.produceObstacle();
@@ -114,7 +147,7 @@ class Background extends egret.DisplayObjectContainer {
 			block.y = 0 - UtilObject.BitmapHeight(block);
 		}
 		else {
-			let offset = this.interval + Math.random() * this.offset;
+			let offset = this.obstacleInterval + Math.random() * this.obstacleOffset;
 			block.y = UtilObject.BitmapTop(obstacle[obstacle.length - 1]) - UtilObject.BitmapHeight(block) - offset;
 		}
 		obstacle.push(block);
@@ -144,9 +177,13 @@ class Background extends egret.DisplayObjectContainer {
 
 	private onEnterFrame(e: egret.Event) {
 		let road = this.road;
+		let scenery = this.scenery;
 		let obstacle = this.obstacle;
 		for (var i = 0; i < road.length; i++) {
 			road[i].y += this.speed;
+		}
+		for (var i = 0; i < scenery.length; i++) {
+			scenery[i].y += this.speed;
 		}
 		for (var i = 0; i < obstacle.length; i++) {
 			obstacle[i].y += this.speed;
@@ -168,6 +205,23 @@ class Background extends egret.DisplayObjectContainer {
 				this.appendRoad("road_png");
 			}
 		}
+		// 删除窗口底部的景物
+		if(scenery.length > 0)
+		{
+			if(UtilObject.BitmapTop(scenery[0]) > this.stage.stageHeight)
+			{
+				this.shiftScenery();
+			}
+		}
+		// 添加窗口顶部的景物
+		if(scenery.length > 0)
+		{
+			let index = scenery.length - 1;
+			if(UtilObject.BitmapTop(scenery[index]) > 0)
+			{
+				this.appendScenery("tree"+ UtilMath.RandomInt(1, 7) + "_png");
+			}
+		}
 		// 删除窗口底部的障碍物
 		if(obstacle.length > 0)
 		{
@@ -184,6 +238,10 @@ class Background extends egret.DisplayObjectContainer {
 			{
 				this.appendObstacle("tail_png");
 			}
+		}
+		if(scenery.length == 0)
+		{
+			this.appendScenery("tree1_png");
 		}
 		if(obstacle.length == 0)
 		{
