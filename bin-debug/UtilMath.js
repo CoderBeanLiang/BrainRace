@@ -13,4 +13,3 @@ var UtilMath = (function () {
     return UtilMath;
 }());
 __reflect(UtilMath.prototype, "UtilMath");
-//# sourceMappingURL=UtilMath.js.map

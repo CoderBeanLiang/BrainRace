@@ -224,4 +224,3 @@ var Background = (function (_super) {
     return Background;
 }(egret.DisplayObjectContainer));
 __reflect(Background.prototype, "Background");
-//# sourceMappingURL=Background.js.map

@@ -12,7 +12,7 @@ var Subject = (function (_super) {
     __extends(Subject, _super);
     function Subject() {
         var _this = _super.call(this) || this;
-        _this.widthText = 100;
+        _this.widthText = 180;
         _this.heightText = 50;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         _this.addEventListener(Subject.EVENT_UPDATE, _this.updateSubject, _this);
@@ -47,4 +47,3 @@ var Subject = (function (_super) {
     return Subject;
 }(egret.DisplayObjectContainer));
 __reflect(Subject.prototype, "Subject");
-//# sourceMappingURL=Subject.js.map

@@ -146,4 +146,3 @@ var Block = (function (_super) {
     return Block;
 }(egret.DisplayObjectContainer));
 __reflect(Block.prototype, "Block");
-//# sourceMappingURL=Block.js.map

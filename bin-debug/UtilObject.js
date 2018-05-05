@@ -36,4 +36,3 @@ var UtilObject = (function () {
     return UtilObject;
 }());
 __reflect(UtilObject.prototype, "UtilObject");
-//# sourceMappingURL=UtilObject.js.map

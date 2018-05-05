@@ -124,4 +124,3 @@ var BlockParam = (function () {
     return BlockParam;
 }());
 __reflect(BlockParam.prototype, "BlockParam");
-//# sourceMappingURL=BlockParam.js.map

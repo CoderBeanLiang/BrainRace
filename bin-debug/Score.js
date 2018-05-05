@@ -53,4 +53,3 @@ var Score = (function (_super) {
     return Score;
 }(egret.DisplayObjectContainer));
 __reflect(Score.prototype, "Score");
-//# sourceMappingURL=Score.js.map

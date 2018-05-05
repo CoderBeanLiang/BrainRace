@@ -66,4 +66,3 @@ var ReadyTimer = (function (_super) {
     return ReadyTimer;
 }(egret.DisplayObjectContainer));
 __reflect(ReadyTimer.prototype, "ReadyTimer");
-//# sourceMappingURL=ReadyTimer.js.map

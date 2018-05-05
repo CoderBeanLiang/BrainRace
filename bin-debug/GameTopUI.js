@@ -87,4 +87,3 @@ var GameTopUI = (function (_super) {
     return GameTopUI;
 }(egret.DisplayObjectContainer));
 __reflect(GameTopUI.prototype, "GameTopUI");
-//# sourceMappingURL=GameTopUI.js.map

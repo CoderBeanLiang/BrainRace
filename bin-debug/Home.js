@@ -138,4 +138,3 @@ var Home = (function (_super) {
     return Home;
 }(egret.DisplayObjectContainer));
 __reflect(Home.prototype, "Home");
-//# sourceMappingURL=Home.js.map

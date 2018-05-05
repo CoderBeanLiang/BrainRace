@@ -36,9 +36,17 @@ var GameOver = (function (_super) {
         retry.anchorOffsetX = retry.width / 2;
         retry.anchorOffsetY = retry.height / 2;
         retry.x = this.stage.stageWidth / 2;
-        retry.y = this.stage.stageHeight * 0.65;
+        retry.y = this.stage.stageHeight * 0.55;
         retry.once(egret.TouchEvent.TOUCH_TAP, this.onRetry, this);
         this.addChild(retry);
+        var share = new egret.Bitmap(RES.getRes("share_png"));
+        share.touchEnabled = true;
+        share.anchorOffsetX = share.width / 2;
+        share.anchorOffsetY = share.height / 2;
+        share.x = this.stage.stageWidth / 2;
+        share.y = this.stage.stageHeight * 0.75;
+        share.once(egret.TouchEvent.TOUCH_TAP, this.onShare, this);
+        this.addChild(share);
         var home = new egret.Bitmap(RES.getRes("icon_home_png"));
         home.touchEnabled = true;
         home.x = 20;
@@ -52,9 +60,42 @@ var GameOver = (function (_super) {
     GameOver.prototype.onHome = function () {
         this.dispatchEventWith(GameOver.GAME_OVER_HOME);
     };
+    GameOver.prototype.onShare = function () {
+        if (typeof (wx) != 'undefined') {
+            wx.onShareAppMessage(function () {
+                // 用户点击了“转发”按钮
+                return {
+                    title: '转发标题'
+                };
+            });
+            wx.showShareMenu({
+                withShareTicket: false,
+                success: function (res) {
+                    console.log(res);
+                },
+                fail: function (err) {
+                    console.log(err);
+                },
+                complete: function () {
+                }
+            });
+            wx.shareAppMessage({
+                title: '转发标题',
+                imageUrl: null,
+                query: null,
+                success: function (res) {
+                    console.log(res);
+                },
+                fail: function (err) {
+                    console.log(err);
+                },
+                complete: function () {
+                }
+            });
+        }
+    };
     GameOver.GAME_OVER_RETRY = "GameOverRetry";
     GameOver.GAME_OVER_HOME = "GameOverHome";
     return GameOver;
 }(egret.DisplayObjectContainer));
 __reflect(GameOver.prototype, "GameOver");
-//# sourceMappingURL=GameOver.js.map

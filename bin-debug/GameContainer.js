@@ -184,4 +184,3 @@ var GameContainer = (function (_super) {
     return GameContainer;
 }(egret.DisplayObjectContainer));
 __reflect(GameContainer.prototype, "GameContainer");
-//# sourceMappingURL=GameContainer.js.map

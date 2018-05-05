@@ -37,7 +37,7 @@ class GameOver extends egret.DisplayObjectContainer {
         retry.once(egret.TouchEvent.TOUCH_TAP, this.onRetry, this);
         this.addChild(retry);
 
-        let share = new egret.Bitmap(RES.getRes("retry_png"));
+        let share = new egret.Bitmap(RES.getRes("share_png"));
         share.touchEnabled = true;
         share.anchorOffsetX = share.width / 2;
         share.anchorOffsetY = share.height / 2;

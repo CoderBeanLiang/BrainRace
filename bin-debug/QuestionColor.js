@@ -49,4 +49,3 @@ var QuestionColor = (function (_super) {
     return QuestionColor;
 }(Question));
 __reflect(QuestionColor.prototype, "QuestionColor");
-//# sourceMappingURL=QuestionColor.js.map
