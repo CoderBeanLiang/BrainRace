@@ -12,9 +12,9 @@ var QuestionNumber = (function (_super) {
     __extends(QuestionNumber, _super);
     function QuestionNumber() {
         var _this = _super.call(this) || this;
-        _this.number1 = UtilMath.RandomInt(0, 10);
-        _this.number2 = UtilMath.RandomInt(0, 10);
-        _this.answer = (_this.number1 * _this.number2) % 10;
+        _this.number1 = UtilMath.RandomInt(10, 19);
+        _this.number2 = UtilMath.RandomInt(2, 9);
+        _this.answer = _this.number1 * _this.number2;
         return _this;
     }
     QuestionNumber.prototype.produceWrong = function () {
@@ -39,7 +39,9 @@ var QuestionNumber = (function (_super) {
         Block.reclaim(block, block.getType());
     };
     QuestionNumber.prototype.randomNumber = function () {
-        var value = UtilMath.RandomInt(0, 10);
+        var number1 = UtilMath.RandomInt(10, 19);
+        var number2 = UtilMath.RandomInt(2, 9);
+        var value = number1 * number2;
         if (value == this.answer) {
             return this.randomNumber();
         }

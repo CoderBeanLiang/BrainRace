@@ -110,6 +110,12 @@ var Car = (function (_super) {
         if (this.currentSpeed < 1) {
             return;
         }
+        if (offsetX > 10) {
+            offsetX = 10;
+        }
+        if (offsetX < -10) {
+            offsetX = -10;
+        }
         var newX = this.x + offsetX;
         if (newX < this.roadLeftEdge + this.carWidthHalf) {
             newX = this.roadLeftEdge + this.carWidthHalf;
