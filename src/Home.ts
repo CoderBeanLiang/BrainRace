@@ -135,10 +135,9 @@ class Home extends egret.DisplayObjectContainer {
                 const texture = new egret.Texture();
                 texture._setBitmapData(bitmapdata);
                 this.rank = new egret.Bitmap(texture);
-                this.rank.anchorOffsetX = this.rank.width / 2;
-                this.rank.anchorOffsetY = this.rank.height / 2;
-                this.rank.x = stageW / 2;
-                this.rank.y = this.rank.height / 2 - 20;
+                this.rank.width = stageW;
+                this.rank.height = stageH;
+                this.rank.y = 0 - this.back.height / 2;
                 this.addChild(this.rank);
 
                 egret.startTick((timeStarmp: number) => {

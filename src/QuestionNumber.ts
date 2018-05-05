@@ -10,9 +10,9 @@ class QuestionNumber extends Question {
 
 		super();
 		
-		this.number1 = UtilMath.RandomInt(0, 10);
-		this.number2 = UtilMath.RandomInt(0, 10);
-		this.answer = (this.number1 * this.number2) % 10;
+		this.number1 = UtilMath.RandomInt(10, 19);
+		this.number2 = UtilMath.RandomInt(2, 9);
+		this.answer = this.number1 * this.number2;
 	}
 
 	protected produceWrong(): Block {
@@ -43,7 +43,9 @@ class QuestionNumber extends Question {
     }
 
 	private randomNumber(): number {
-		let value = UtilMath.RandomInt(0, 10);
+		let number1 = UtilMath.RandomInt(10, 19);
+		let number2 = UtilMath.RandomInt(2, 9);
+		let value = number1 * number2;
 		if(value == this.answer) {
 			return this.randomNumber();
 		} else {
