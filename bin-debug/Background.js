@@ -17,8 +17,12 @@ var Background = (function (_super) {
         _this.leftEdge = 120;
         _this.rightEdge = 520;
         _this.obstacle = new Array();
-        _this.offset = 200;
-        _this.interval = 200;
+        _this.obstacleOffset = 200;
+        _this.obstacleInterval = 200;
+        _this.scenery = new Array();
+        _this.sceneryOffset = 400;
+        _this.sceneryInterval = 200;
+        _this.sceneryGuardrailWidth = 30;
         _this.initMember();
         _this.initListener();
         return _this;
@@ -93,6 +97,32 @@ var Background = (function (_super) {
         road.push(track);
         this.addChildAt(track, 0);
     };
+    Background.prototype.shiftScenery = function () {
+        var scenery = this.scenery;
+        var object = scenery.shift();
+        this.removeChild(object);
+    };
+    Background.prototype.appendScenery = function (name) {
+        var scenery = this.scenery;
+        var object = new egret.Bitmap();
+        object.texture = RES.getRes(name);
+        if (scenery.length == 0) {
+            object.y = 0 - UtilObject.BitmapHeight(object);
+        }
+        else {
+            var offset = this.sceneryInterval + Math.random() * this.sceneryOffset;
+            object.y = UtilObject.BitmapTop(scenery[scenery.length - 1]) - UtilObject.BitmapHeight(object) - offset;
+        }
+        var witdh = UtilObject.BitmapWidth(object);
+        if (UtilMath.RandomInt(0, 1) == 0) {
+            object.x = UtilMath.Random(0, this.leftEdge - witdh - this.sceneryGuardrailWidth);
+        }
+        else {
+            object.x = UtilMath.Random(this.rightEdge + this.sceneryGuardrailWidth, this.stage.width - witdh);
+        }
+        scenery.push(object);
+        this.addChildAt(object, 100);
+    };
     Background.prototype.appendObstacle = function (name) {
         var obstacle = this.obstacle;
         var block = this.produceObstacle();
@@ -101,7 +131,7 @@ var Background = (function (_super) {
             block.y = 0 - UtilObject.BitmapHeight(block);
         }
         else {
-            var offset = this.interval + Math.random() * this.offset;
+            var offset = this.obstacleInterval + Math.random() * this.obstacleOffset;
             block.y = UtilObject.BitmapTop(obstacle[obstacle.length - 1]) - UtilObject.BitmapHeight(block) - offset;
         }
         obstacle.push(block);
@@ -126,9 +156,13 @@ var Background = (function (_super) {
     };
     Background.prototype.onEnterFrame = function (e) {
         var road = this.road;
+        var scenery = this.scenery;
         var obstacle = this.obstacle;
         for (var i = 0; i < road.length; i++) {
             road[i].y += this.speed;
+        }
+        for (var i = 0; i < scenery.length; i++) {
+            scenery[i].y += this.speed;
         }
         for (var i = 0; i < obstacle.length; i++) {
             obstacle[i].y += this.speed;
@@ -146,6 +180,19 @@ var Background = (function (_super) {
                 this.appendRoad("road_png");
             }
         }
+        // 删除窗口底部的景物
+        if (scenery.length > 0) {
+            if (UtilObject.BitmapTop(scenery[0]) > this.stage.stageHeight) {
+                this.shiftScenery();
+            }
+        }
+        // 添加窗口顶部的景物
+        if (scenery.length > 0) {
+            var index = scenery.length - 1;
+            if (UtilObject.BitmapTop(scenery[index]) > 0) {
+                this.appendScenery("tree" + UtilMath.RandomInt(1, 7) + "_png");
+            }
+        }
         // 删除窗口底部的障碍物
         if (obstacle.length > 0) {
             if (UtilObject.BitmapTop(obstacle[0]) > this.stage.stageHeight) {
@@ -158,6 +205,9 @@ var Background = (function (_super) {
             if (UtilObject.BitmapTop(obstacle[index]) > 0) {
                 this.appendObstacle("tail_png");
             }
+        }
+        if (scenery.length == 0) {
+            this.appendScenery("tree1_png");
         }
         if (obstacle.length == 0) {
             this.appendObstacle("tail_png");

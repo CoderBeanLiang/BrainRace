@@ -19,6 +19,9 @@ var UtilObject = (function () {
     UtilObject.BitmapHeight = function (bitmap) {
         return bitmap.height * bitmap.scaleY;
     };
+    UtilObject.BitmapWidth = function (bitmap) {
+        return bitmap.width * bitmap.scaleX;
+    };
     UtilObject.Overlay = function (obj, obs) {
         var rect = new egret.Rectangle();
         rect.top = UtilObject.BitmapTop(obs);
