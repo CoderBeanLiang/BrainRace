@@ -33,9 +33,18 @@ class GameOver extends egret.DisplayObjectContainer {
         retry.anchorOffsetX = retry.width / 2;
         retry.anchorOffsetY = retry.height / 2;
         retry.x = this.stage.stageWidth / 2;
-        retry.y = this.stage.stageHeight * 0.65;
+        retry.y = this.stage.stageHeight * 0.55;
         retry.once(egret.TouchEvent.TOUCH_TAP, this.onRetry, this);
         this.addChild(retry);
+
+        let share = new egret.Bitmap(RES.getRes("retry_png"));
+        share.touchEnabled = true;
+        share.anchorOffsetX = share.width / 2;
+        share.anchorOffsetY = share.height / 2;
+        share.x = this.stage.stageWidth / 2;
+        share.y = this.stage.stageHeight * 0.75;
+        share.once(egret.TouchEvent.TOUCH_TAP, this.onShare, this);
+        this.addChild(share);
 
         let home = new egret.Bitmap(RES.getRes("icon_home_png"));
         home.touchEnabled = true;
@@ -51,5 +60,43 @@ class GameOver extends egret.DisplayObjectContainer {
 
     private onHome() {
         this.dispatchEventWith(GameOver.GAME_OVER_HOME);
+    }
+
+    private onShare() {
+        if(typeof(wx) != 'undefined') {
+            wx.onShareAppMessage(function () {
+                // 用户点击了“转发”按钮
+                return {
+                    title: '转发标题'
+                }
+                })
+            wx.showShareMenu({
+                withShareTicket: false,
+                success: res => {
+                    console.log(res);
+                },
+                fail: err => {
+                    console.log(err);
+                },
+                complete: () => {
+
+                }
+                });
+
+            wx.shareAppMessage({
+                title: '转发标题',
+                imageUrl: null,
+                query: null,
+                success: res => {
+                    console.log(res);
+                },
+                fail: err => {
+                    console.log(err);
+                },
+                complete: () => {
+
+                }
+            });
+        }
     }
 }
