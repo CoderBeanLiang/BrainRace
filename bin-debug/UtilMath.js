@@ -7,6 +7,9 @@ var UtilMath = (function () {
     UtilMath.RandomInt = function (L, R) {
         return Math.floor(L + (R - L + 1) * Math.random());
     };
+    UtilMath.Random = function (L, R) {
+        return L + (R - L + 1) * Math.random();
+    };
     return UtilMath;
 }());
 __reflect(UtilMath.prototype, "UtilMath");

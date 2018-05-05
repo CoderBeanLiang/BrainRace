@@ -130,6 +130,13 @@ class Car extends egret.DisplayObjectContainer {
             return;
         }
 
+        if (offsetX > 10) {
+            offsetX = 10;
+        }
+        if (offsetX < -10) {
+            offsetX = -10;
+        }
+
         var newX = this.x + offsetX;
         if (newX < this.roadLeftEdge + this.carWidthHalf) {
             newX = this.roadLeftEdge + this.carWidthHalf;
