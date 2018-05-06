@@ -63,7 +63,6 @@ class Home extends egret.DisplayObjectContainer {
     }
 
     private onStartClick() {
-        console.log("StartClicked");
         this.dispatchEventWith(Home.START_CLICK);
     }
 

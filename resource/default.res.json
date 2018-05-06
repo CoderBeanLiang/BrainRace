@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,egret_icon_png,description_json,road_png,block_zero_png,block_blue_png,block_eight_png,block_five_png,block_four_png,block_green_png,block_nine_png,block_one_png,block_orange_png,block_purple_png,block_red_png,block_seven_png,block_six_png,block_three_png,block_two_png,block_yellow_png,car_anim_png,car_anim_json,ready_png,ready_go_png,tree1_png,tree2_png,tree3_png,tree4_png,tree5_png,tree6_png,tree7_png,icon_home_png,share_png,retry_png,sort_png,start_png,gas_mask_png,gas_line_png,back_png,title_png,bg_top_png,score_0_png,score_1_png,score_2_png,score_3_png,score_4_png,score_5_png,score_6_png,score_7_png,score_8_png,score_9_png,score_dot_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,egret_icon_png,description_json,road_png,block_zero_png,block_blue_png,block_eight_png,block_five_png,block_four_png,block_green_png,block_nine_png,block_one_png,block_orange_png,block_purple_png,block_red_png,block_seven_png,block_six_png,block_three_png,block_two_png,block_yellow_png,car_anim_png,car_anim_json,ready_png,ready_go_png,tree1_png,tree2_png,tree3_png,tree4_png,tree5_png,tree6_png,tree7_png,icon_home_png,share_png,retry_png,sort_png,start_png,gas_mask_png,gas_line_png,back_png,title_png,bg_top_png,score_0_png,score_1_png,score_2_png,score_3_png,score_4_png,score_5_png,score_6_png,score_7_png,score_8_png,score_9_png,score_dot_png,ranking_png,meter_png",
 			"name": "preload"
 		}
 	],
@@ -375,6 +375,16 @@
 			"name": "score_dot_png",
 			"type": "image",
 			"url": "assets/score/score_dot.png"
+		},
+		{
+			"name": "ranking_png",
+			"type": "image",
+			"url": "assets/ranking.png"
+		},
+		{
+			"name": "meter_png",
+			"type": "image",
+			"url": "assets/meter.png"
 		}
 	]
 }
