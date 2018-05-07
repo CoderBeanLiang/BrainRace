@@ -64,6 +64,7 @@ class Main extends eui.UILayer {
         const result = await RES.getResAsync("description_json")
         // this.startAnimation(result);
         await platform.login();
+        this.enableShare();
     }
 
     private async loadResource() {
@@ -90,6 +91,31 @@ class Main extends eui.UILayer {
             }, this);
 
         })
+    }
+    
+    private enableShare() {
+        if(typeof(wx) != 'undefined') {
+            wx.onShareAppMessage(function () {
+                // 用户点击了“转发”按钮
+                return {
+                    title: '这是你没玩过的公路赛车，看看你能跑多远？',
+                    imageUrl: '/resource/assets/share_title.png',
+                    query: null,
+                }
+                })
+            wx.showShareMenu({
+                withShareTicket: false,
+                success: res => {
+                    console.log(res);
+                },
+                fail: err => {
+                    console.log(err);
+                },
+                complete: () => {
+
+                }
+                });
+        }
     }
 
     /**
