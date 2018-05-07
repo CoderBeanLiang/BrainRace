@@ -98,37 +98,9 @@ class GameOver extends egret.DisplayObjectContainer {
 
     private onShare() {
         if(typeof(wx) != 'undefined') {
-            wx.onShareAppMessage(function () {
-                // 用户点击了“转发”按钮
-                return {
-                    title: '这是你没玩过的公路赛车，看看你能跑多远？',
-                    // imageUrl: canvas.toTempFilePathSync({
-                    //     x:0,
-                    //     y:0,
-                    //     width: 200,
-                    //     height: 150,
-                    //     destWidth: 400,
-                    //     destHeight: 300
-                    // }),
-                    query: null,
-                }
-                })
-            wx.showShareMenu({
-                withShareTicket: false,
-                success: res => {
-                    console.log(res);
-                },
-                fail: err => {
-                    console.log(err);
-                },
-                complete: () => {
-
-                }
-                });
-
             wx.shareAppMessage({
                 title: '这是你没玩过的公路赛车，看看你能跑多远？',
-                imageUrl: null,
+                imageUrl: '/resource/assets/share_title.png',
                 query: null,
                 success: res => {
                     console.log(res);
