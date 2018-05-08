@@ -7,13 +7,18 @@ class Background extends egret.DisplayObjectContainer {
 	private rightEdge: number = 520;
 
 	private obstacle: Array<egret.DisplayObject> = new Array<egret.DisplayObject>();
+	// 障碍物间隔偏移 间隔范围[obstacleInterval, obstacleInterval + obstacleOffset]
 	private obstacleOffset: number = 200;
+	// 障碍物间隔
 	private obstacleInterval: number = 200;
 
 
 	private scenery: Array<egret.Bitmap> = new Array<egret.Bitmap>();
+	// 景物间隔偏移 间隔范围[sceneryInterval, sceneryInterval + sceneryOffset]
 	private sceneryOffset: number = 400;
+	// 景物间隔
 	private sceneryInterval: number = 200;
+
 	private sceneryGuardrailWidth: number = 30;
 
 	private question: Question;
